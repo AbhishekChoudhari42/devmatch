@@ -12,7 +12,7 @@ const Bottombar = () => {
                 navElements.map((link,index)=>{
                     const isActive = pathname.includes(link.route) && (link.route.length > 0) && pathname === link.route
 
-                    return <Link key={index} href={ {pathname:link.route}} className={`text-white text-md p-2 rounded-md ${isActive ? 'bg-blue-500 hover:bg-blue-600' : 'bg-neutral-950 hover:bg-neutral-800'}`}>
+                    return <Link key={index} href={ {pathname:link.route}} className={`text-white text-md p-2 rounded-md ${isActive ? 'bg-violet-600 hover:bg-violet-700' : 'bg-neutral-950 hover:bg-neutral-800'}`}>
                             
                                 <link.icon size={24}/>
                             

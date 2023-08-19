@@ -9,11 +9,20 @@ export async function POST(req : NextRequest) {
     const res = NextResponse
     
     try{
-        const {username} = await req.json()
-        const user = {username}
+        const {user} = await req.json()
+        
         connectDB()
+        let currentUser = await User.findOne({user_id:user.user_id})
+        console.log(currentUser)
+        if(currentUser?._id){
 
-        await User.create(user);
+            await User.findByIdAndUpdate({_id:currentUser?._id},user);
+
+        } 
+        else{
+            
+            await User.create(user);
+        }
         return res.json({message:"success",data:user})
     }
     catch(error){

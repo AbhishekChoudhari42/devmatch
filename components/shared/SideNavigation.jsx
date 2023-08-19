@@ -18,7 +18,7 @@ const SideNavigation = () => {
         {
             navElements.map((link,index)=>{
                 const isActive = pathname.includes(link.route) && (link.route.length > 0) && pathname === link.route
-                return <Link key={index} href={{pathname:link.route}} className={`flex items-center text-white  w-full  p-2 px-4 max-md:px-2 max-md:ml-0 block rounded-md mb-4 ${isActive ? 'bg-violet-600 hover:bg-purple-600' : 'bg-neutral-950 hover:bg-neutral-800'}`}>
+                return <Link key={index} href={{pathname:link.route}} className={`flex items-center text-white  w-full  p-2 px-4 max-md:px-2 max-md:ml-0 block rounded-md mb-4 ${isActive ? 'bg-violet-600 hover:bg-violet-700' : 'bg-neutral-950 hover:bg-neutral-800'}`}>
                             <link.icon size={20}/>
                             <p className='ml-2 text-sm  max-md:hidden max-md:p-0'>{link.label} </p>   
                         </Link>

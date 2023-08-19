@@ -2,7 +2,7 @@ const page = () => {
 
     return (
     <div className="text-white">
-    
+    jhjhjkhj
     </div>
     )
 }
