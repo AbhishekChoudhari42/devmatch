@@ -19,13 +19,13 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html className='w-screen h-full flex justify-center items-center bg-neutral-900' lang="en">
       <body className={inter.className}>
         <AuthProvider>
 
-        <section className='relative bg-black flex max-w-[1300px]'>
+        <section className='relative bg-black  max-w-[1300px]'>
             <Topbar/>
-            <main className='flex h-screen w-screen bg-red-400'>
+            <main className='flex justify-between h-screen w-screen max-w-[1300px] pt-14 bg-neutral-800'>
               <SideNavigation/>
               {children}
               <RightSidebar/>
