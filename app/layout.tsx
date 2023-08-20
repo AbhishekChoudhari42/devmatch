@@ -24,8 +24,8 @@ export default function RootLayout({
         <AuthProvider>
 
         <section className='relative bg-black  max-w-[1300px]'>
-            <Topbar/>
             <main className='flex justify-between h-screen w-screen max-w-[1300px] pt-14 bg-neutral-800'>
+            <Topbar/>
               <SideNavigation/>
               {children}
               <RightSidebar/>
