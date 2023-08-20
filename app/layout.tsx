@@ -27,7 +27,9 @@ export default function RootLayout({
             <main className='flex justify-between h-screen w-screen max-w-[1300px] pt-14 bg-neutral-800'>
             <Topbar/>
               <SideNavigation/>
-              {children}
+              <div className='pt-4 flex-grow w-1/2 overflow-y-scroll px-4 pb-20'>
+                 {children}
+              </div>
               <RightSidebar/>
             </main>
             <Bottombar/>
