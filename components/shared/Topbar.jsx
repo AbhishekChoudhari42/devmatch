@@ -9,7 +9,7 @@ const Topbar = () => {
 
   const path = usePathname()
   return (
-    <nav className="flex top-0 justify-between items-center w-full bg-black h-14 p-2 px-4 absolute z-10">
+    <nav className="flex top-0 justify-between items-center w-full bg-black h-14 p-2 px-4 fixed z-10">
         <Link href="/" className='flex'>
           <Image height={32} width={32} alt="profile picture" src="/logo.webp" className='rounded-md' />
           <p className="text-white font-bold text-xl pl-4" >Devmatch</p>
