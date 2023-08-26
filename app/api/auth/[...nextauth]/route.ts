@@ -2,6 +2,7 @@ import NextAuth,{NextAuthOptions} from "next-auth"
 import GithubProvider from "next-auth/providers/github"
 import {signIn} from "next-auth/react";
 import { createOrUpdateUser } from "@/client_api/api";
+
 const authOptions : NextAuthOptions = {
   // Configure one or more authentication providers
   providers: [
@@ -14,6 +15,7 @@ const authOptions : NextAuthOptions = {
   secret : process.env.NEXTAUTH_SECRET,
   callbacks : {
     async signIn({profile}:any){
+      // console.log(profile)
       // const {id,login,location,bio,email} = profile
       try{
         await createOrUpdateUser({

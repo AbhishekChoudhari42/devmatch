@@ -5,7 +5,11 @@ const userSchema = new Schema({
     email: String,
     bio: String,
     user_id: String,
-    location: String
+    location: String,
+    likedPost:{
+        type:[String],
+        default:[]
+    }
 },
 {
     timestamps:true

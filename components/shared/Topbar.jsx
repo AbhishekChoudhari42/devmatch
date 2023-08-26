@@ -3,22 +3,26 @@ import {useSession} from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-
+import useStore from '@/state/store'
+import { getUser } from '@/client_api/api'
+import { useEffect } from 'react'
 const Topbar = () => {
+  
   const { data: session, status } = useSession()
-
   const path = usePathname()
+  
   return (
-    <nav className="flex top-0 justify-between items-center w-full bg-black h-14 p-2 px-4 fixed z-10">
+    <nav className="flex max-w-[1300px] top-0 justify-between items-center w-full bg-black h-14 p-2 px-4 fixed z-10 ">
+        
         <Link href="/" className='flex'>
-          <Image height={32} width={32} alt="profile picture" src="/logo.webp" className='rounded-md' />
+          <Image height={32} width={32} alt="logo" src="/logo.webp" className='rounded-md ' />
           <p className="text-white font-bold text-xl pl-4" >Devmatch</p>
-
         </Link>
 
           <Link href="/profile">
-              <Image height={32} width={32} alt="profile picture" src={session?.user?.image}  className={`rounded-md hover ${path == '/profile' && 'border-2 border-white'}`}/>
+              <Image height={32} width={32} alt="profile picture" src={session?.user?.image || '/user.png'}  className={`rounded-md hover ${path == '/profile' && 'border-2  border-neutral-600 outline-2 outline-neutral-200'}`}/>
           </Link>
+
     </nav>
   )
 }

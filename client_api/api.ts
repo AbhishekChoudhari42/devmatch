@@ -18,3 +18,28 @@ export async function createOrUpdateUser(user:User) {
         console.log(error)
     }
 }
+
+
+export async function getUser(email:string){
+    try{
+      
+        const res = await axios.get(`http://localhost:3000/api/user/fetchuser?email=${email}`)
+        // console.log(res.data.user)
+        return res.data.user
+
+    }catch(error){
+        console.log(error)
+    }
+}
+
+export async function fetchPosts(page:number){
+    try{
+
+        return await axios.get(`/posts/fetch?page=${page}`);
+
+    }catch(error){
+
+        return error
+
+    }
+}
