@@ -23,7 +23,7 @@ export async function createOrUpdateUser(user:User) {
 export async function getUser(email:string){
     try{
       
-        const res = await axios.get(`http://localhost:3000/api/user/fetchuser?email=${email}`)
+        const res = await axios.get(`/api/user/fetchuser?email=${email}`)
         // console.log(res.data.user)
         return res.data.user
 
