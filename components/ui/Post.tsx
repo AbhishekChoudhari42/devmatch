@@ -23,7 +23,7 @@ const Post = (props:any) => {
   
   const {post} = props
   
-  
+  console.log(post)
   const user_id = '80809554'
   const { data: session, status } = useSession() 
   const [likes,setLikes] = useState({initialState : post.likes.length , currentState:post.likes.length})
@@ -37,6 +37,7 @@ const Post = (props:any) => {
           const user = await getUser(`${session?.user?.email}`)
           const res =  await likePost(post._id,user?.user_id)
           if(!res.success){
+            alert('post liked')
             setLikes({...likes,currentState:likes.initialState})
           }
         }

@@ -31,7 +31,7 @@ export const createPost = async ({content,user_id,path}:Postparams) => {
 
 export const fetchPosts = async (page:number) =>{
 
-        const limit = 2
+        const limit = 5
         const skip = (page - 1) * limit
         
         const path = '/'
