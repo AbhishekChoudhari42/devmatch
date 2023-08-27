@@ -3,9 +3,21 @@ import { useInfiniteQuery , QueryClient , QueryClientProvider } from "@tanstack/
 import { fetchPosts } from './actions/post.actions'
 import Post from "@/components/ui/Post"
 import { useIntersection } from "@mantine/hooks"
-import { useEffect,useRef } from "react"
+import { useEffect,useRef,useState } from "react"
+import { useSession } from "next-auth/react"
+import { getUser } from "@/client_api/api"
+import useUserStore from '../state/store'
 export default function Page() {
 
+  const { data: session, status } = useSession()  
+  const {user,setUser} = useUserStore()
+  useEffect(() => {
+    
+    (async function(){
+       setUser(await getUser(`${session?.user?.email}`))
+    })()
+    
+  }, [])
 
   const {data,fetchNextPage,hasNextPage,isFetchingNextPage,error} = useInfiniteQuery(
     ["feed"],
@@ -52,7 +64,7 @@ export default function Page() {
           return <div key={index}>
                                 
             { 
-              page?.map(post => { return <div key={post._id}><Post data={post}/></div>}) 
+              page?.map(post => { return <div key={post._id}><Post user={user} post={post}/></div>}) 
                                 
             }
             
@@ -60,7 +72,7 @@ export default function Page() {
                         
         })
       }
-      <div ref={lastPostRef}>loading{isFetchingNextPage && '....'}</div>
+      <div onClick={()=>{fetchNextPage()}} ref={ref}>loading{isFetchingNextPage && '....'}</div>
       <div className='h-[300px] w-full bg-neutral-950 mb-4 rounded-md p-4'>helloo you are signed in</div>
     </main>
   )

@@ -3,10 +3,9 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import AuthProvider from './AuthProvider'
 import Topbar from '../components/shared/Topbar' 
-import SideNavigation from '../components/shared/SideNavigation'
 import RightSidebar from '../components/shared/RightSidebar'
+import SideNavigation from '../components/shared/SideNavigation'
 import Bottombar from '../components/shared/Bottombar'
-// import QProvider from '../components/queryprovider/QProvider'
 import ReactQueryProvider from './ReactQueryProvider'
 
 const inter = Inter({ subsets: ['latin'] })

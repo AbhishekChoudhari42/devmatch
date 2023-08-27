@@ -59,23 +59,31 @@ export const fetchPosts = async (page:number) =>{
 
 export const likePost = async (postId:string,user_id:string) => {
     
-    connectDB()
-    
-    const post = await Post.findById(postId);
-    
-    if (!post) {
-        return {message:"error",success:false}
-    }
+    try{
 
-    const status = !post?.likes.includes(user_id)
-    console.log(status)
-    if(status){
-        await Post.findByIdAndUpdate(postId, { $push: { likes: user_id } });
-        return {message:"post liked",success:true}
-    }else{
         
-        await Post.findByIdAndUpdate(postId, { $pull: { likes: user_id } });
-        return {message:"post unliked",success:true}
+        connectDB()
+        
+        const post = await Post.findById(postId);
+        
+        if (!post) {
+            return { success:false }   
+        }
+
+        const status = !post?.likes.includes(user_id)
+            
+        if(status){        
+            await Post.findByIdAndUpdate(postId, { $push: { likes: user_id } });       
+        }
+
+        if(!status){            
+            await Post.findByIdAndUpdate(postId, { $pull: { likes: user_id } });
+        }
+
+        return {success:true}
+
+    }catch(error){
+        return {success:false}
     }
 
 } 

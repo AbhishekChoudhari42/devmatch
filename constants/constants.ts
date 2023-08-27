@@ -4,8 +4,7 @@ import {GoHome , GoSearch} from 'react-icons/go'
 import {MdOutlineExplore} from 'react-icons/md'
 import {BiMessageDetail} from 'react-icons/bi'
 import {IoAddCircleOutline} from 'react-icons/io5'
-import {CgProfile} from 'react-icons/cg'
-import {TbLogout} from 'react-icons/tb'
+
 
 export const navElements = [
     { route:"/",label:"Home",icon:GoHome},
