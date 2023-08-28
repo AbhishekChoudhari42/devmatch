@@ -8,7 +8,7 @@ import Image from 'next/image'
 import {useState} from 'react'
 import useUserStore from '@/state/store'
 import { useSession } from "next-auth/react"
-
+import Link from 'next/link'
 import { getUser } from '@/client_api/api'
 interface PostTypes{
     _id:string,
@@ -22,8 +22,6 @@ interface PostTypes{
 const Post = (props:any) => {
   
   const {post} = props
-  
-  console.log(post)
   const user_id = '80809554'
   const { data: session, status } = useSession() 
   const [likes,setLikes] = useState({initialState : post.likes.length , currentState:post.likes.length})
@@ -68,8 +66,10 @@ const Post = (props:any) => {
         <FcLike color="white" onClick={handlePostLike} className={`mb-[3px] filter-greyscale-50 ${likeStatus?'bg-red-500 rounded-full p-2':'bg-green'}`}/>
         <p className="text-sm text-red-100 hover:text-red-400 ml-4">{likes.currentState}</p>
         {/* comments */}
-        <BiCommentDetail className='ml-8' />
-        <p className="text-sm text-red-100 hover:text-red-400 ml-4">141{/* {data.likes?.length} */}</p>
+        <Link href={`/comment/${post._id}`}>
+          <BiCommentDetail className='ml-8' />
+        </Link>
+        <p className="text-sm text-red-100 hover:text-red-400 ml-4">{post.comments?.length}</p>
         {/* share */}
         <RiSendPlaneFill className='ml-8' />
       </div>

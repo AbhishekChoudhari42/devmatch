@@ -42,11 +42,12 @@ export const fetchPosts = async (page:number) =>{
             console.log('connect')
             const posts = await Post.find().skip(skip).limit(limit).sort({ createdAt: "desc" });
                 
-            revalidatePath(path)
-            
+            const totalDocs = await Post.countDocuments()
+            const isNextPage = (page <= (Math.ceil(totalDocs/limit)))
             console.log('posts===',{posts:posts})
             
-            return {message:'success',posts:posts}
+            revalidatePath(path)
+            return {message:'success',posts:posts,isNextPage}
     
         }catch(error){
 
@@ -54,6 +55,25 @@ export const fetchPosts = async (page:number) =>{
         
         }
 
+}
+
+export const fetchPostById = async (id:string) => {
+    try{
+
+        connectDB()
+        console.log('fetch single post',id)
+
+        const post = await Post.findById(id)
+                    
+        // console.log('posts===',{post:post})
+        
+        return {message:'success',post:post}
+
+    }catch(error){
+
+        return {message:'error occurred',post:null}
+    
+    }
 }
 
 
@@ -87,3 +107,4 @@ export const likePost = async (postId:string,user_id:string) => {
     }
 
 } 
+

@@ -7,6 +7,7 @@ import { useEffect,useRef,useState } from "react"
 import { useSession } from "next-auth/react"
 import { getUser } from "@/client_api/api"
 import useUserStore from '../state/store'
+import SkeletonLoader from "@/components/ui/SkeletonLoader"
 export default function Page() {
 
   const { data: session, status } = useSession()  
@@ -18,18 +19,19 @@ export default function Page() {
     })()
     
   }, [])
-
-  const {data,fetchNextPage,hasNextPage,isFetchingNextPage,error} = useInfiniteQuery(
+  const [pageEnd,setPageEnd] = useState(false)
+  const {data,fetchNextPage,hasNextPage,isFetchingNextPage,error,isLoading} = useInfiniteQuery(
     ["feed"],
     async ({pageParam = 1}) => { 
 
         let response =  await fetchPosts(pageParam)
-        return response?.posts
+        console.log(response?.isNextPage)
+        return {posts: response?.posts,isNextPage: response?.isNextPage}
     
     },
     {
-        getNextPageParam: (_,pages)=>{
-            return pages.length + 1
+        getNextPageParam: (_,pages)=>{         
+            return pages[pages.length - 1]?.isNextPage ? pages.length + 1 : undefined
         },
         initialData:{
             pages: [],
@@ -58,22 +60,22 @@ export default function Page() {
   console.log(data)
 
   return (
-    <main className="w-full bg-neutral-950 text-white">
-       {data?.pages?.map((page,index)=>{
-                        
+    <main className="w-full bg-neutral-950 text-white">       
+       {!isLoading ? (data?.pages?.map((page,index)=>{
+                console.log(page)        
           return <div key={index}>
                                 
             { 
-              page?.map(post => { return <div key={post._id}><Post user={user} post={post}/></div>}) 
+              page?.posts?.map(post => { return <div key={post._id}><Post post={post}/></div>}) 
                                 
             }
             
           </div>
                         
-        })
+        })):<SkeletonLoader styles="h-[200px]" qty={5} />
       }
-      <div onClick={()=>{fetchNextPage()}} ref={ref}>loading{isFetchingNextPage && '....'}</div>
-      <div className='h-[300px] w-full bg-neutral-950 mb-4 rounded-md p-4'>helloo you are signed in</div>
+      <div ref={ref}>{(isFetchingNextPage) && <SkeletonLoader styles="h-[200px]" qty={5}/>}</div>
+      {hasNextPage && (<div className='h-[300px] w-full bg-neutral-950 mb-4 rounded-md p-4'>Loading...</div>)}
     </main>
   )
 }

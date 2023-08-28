@@ -1,11 +1,12 @@
 "use client"
-import {useSession} from 'next-auth/react'
+import { useSession } from 'next-auth/react'
 import { usePathname } from 'next/navigation'
-import {useState} from 'react'
+import { useState } from 'react'
 import { createPost } from "@/app/actions/post.actions"
 import { getUser } from '@/client_api/api'
 import { useTransition } from 'react'
-import {AiOutlineLoading3Quarters} from 'react-icons/ai'
+import { AiOutlineLoading3Quarters } from 'react-icons/ai'
+
 const page = () => {
 
     const { data: session, status } = useSession()

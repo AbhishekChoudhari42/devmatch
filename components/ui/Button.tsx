@@ -1,13 +1,27 @@
 "use client"
 
-import { createOrUpdateUser } from '@/client_api/api'
-const Button = () => {
-  async function handleUser(){
-    await createOrUpdateUser({user_id:"1234",username:"aaa",location:"Pune",email:"aaa@as",bio:"bioo"})
-  }
+import { ReactNode } from "react"
+import { JsxElement } from "typescript"
+
+interface ButtonProps{
+  isLoading:boolean,
+  handleClick:any,
+  children:ReactNode,
+  style:string
+}
+
+import {AiOutlineLoading3Quarters} from 'react-icons/ai'
+
+const Button = ({isLoading,handleClick,children,style}:ButtonProps) => {
+
+
+
   return (
-    <button onClick={handleUser}>
-        create user
+    <button className={`${style} p-4 flex justify-center items-center`} onClick={handleClick}>
+        {!isLoading && <div>
+          {children}
+        </div>}
+        {isLoading && <AiOutlineLoading3Quarters className="animate-spin text-white" />}
     </button>
   )
 }

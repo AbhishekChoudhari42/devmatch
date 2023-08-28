@@ -4,6 +4,7 @@ const commentSchema = new Schema({
     content: String,
     username: String,
     user_id:String,
+    postId:String
 },
 {
     timestamps:true
