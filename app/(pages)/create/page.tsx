@@ -6,11 +6,11 @@ import { createPost } from "@/app/actions/post.actions"
 import { getUser } from '@/client_api/api'
 import { useTransition } from 'react'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
-
+import { useRouter } from 'next/navigation'
 const page = () => {
 
     const { data: session, status } = useSession()
-    
+    const router = useRouter()
     const path = usePathname()
 
     const [content,setContent] = useState("")
@@ -32,8 +32,10 @@ const page = () => {
             const {user_id,username,_id} = await getUser(userEmail)
             
             startTransition(()=>createPost({content,_id,user_id,username,path}))
-
+            
             setContent('')
+
+            router.push('/')
         
         }catch(error){
 
@@ -56,9 +58,9 @@ const page = () => {
 
             <button 
                 onClick={handleSubmit}
-                className='text-green-900 bg-green-500 p-2 w-full rounded-md'
+                className='text-white bg-violet-500 p-2 w-full rounded-md'
             >
-            submit{isPending && <AiOutlineLoading3Quarters color="red" className="animate-spin" />}
+            Create{isPending && <AiOutlineLoading3Quarters color="red" className="animate-spin" />}
             </button>
         </form>
     </div>

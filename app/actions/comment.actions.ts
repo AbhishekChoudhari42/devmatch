@@ -14,7 +14,9 @@ export const addComment = async (postId:string,user_id:string,content:string,use
             return { success:false }   
         }
 
-        await Comment.create({content,postId,user_id,username})
+        const comment = await Comment.create({content,postId,user_id,username})
+        
+        await Post.findByIdAndUpdate(postId, { $push: { comments: comment?._id}});       
 
         revalidatePath(`/comment/${postId}`)
 
@@ -30,11 +32,7 @@ export const fetchComments = async(page:number,postId:string) => {
     try{
 
         connectDB()
-        console.log('connect')
         const comments = await Comment.find({postId}).skip(skip).limit(limit).sort({ createdAt: "desc" });
-                    
-        console.log('commments===',{comments})
-        
         return {message:'success',comments}
 
     }catch(error){

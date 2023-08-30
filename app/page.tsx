@@ -25,7 +25,6 @@ export default function Page() {
     async ({pageParam = 1}) => { 
 
         let response =  await fetchPosts(pageParam)
-        console.log(response?.isNextPage)
         return {posts: response?.posts,isNextPage: response?.isNextPage}
     
     },
@@ -51,18 +50,15 @@ export default function Page() {
     useEffect(()=>{
       
         if(entry?.isIntersecting){
-            console.log(hasNextPage,"====")
             fetchNextPage()
         }
         
     },[entry])
   
-  console.log(data)
 
   return (
     <main className="w-full bg-neutral-950 text-white">       
        {!isLoading ? (data?.pages?.map((page,index)=>{
-                console.log(page)        
           return <div key={index}>
                                 
             { 

@@ -43,7 +43,7 @@ export const fetchPosts = async (page:number) =>{
             const posts = await Post.find().skip(skip).limit(limit).sort({ createdAt: "desc" });
                 
             const totalDocs = await Post.countDocuments()
-            const isNextPage = (page <= (Math.ceil(totalDocs/limit)))
+            const isNextPage = page <= (Math.ceil(totalDocs/limit))
             console.log('posts===',{posts:posts})
             
             revalidatePath(path)

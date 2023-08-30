@@ -15,8 +15,6 @@ const authOptions : NextAuthOptions = {
   secret : process.env.NEXTAUTH_SECRET,
   callbacks : {
     async signIn({profile}:any){
-      // console.log(profile)
-      // const {id,login,location,bio,email} = profile
       try{
         await createOrUpdateUser({
           user_id:  profile?.id as string,

@@ -13,7 +13,6 @@ export async function POST(req : NextRequest) {
         
         connectDB()
         let currentUser = await User.findOne({user_id:user.user_id})
-        console.log(currentUser)
         if(currentUser?._id){
 
             await User.findByIdAndUpdate({_id:currentUser?._id},user);
@@ -26,7 +25,6 @@ export async function POST(req : NextRequest) {
         return res.json({message:"success",data:user})
     }
     catch(error){
-        console.log(error)
         return res.json({message:"error"})
     }
   

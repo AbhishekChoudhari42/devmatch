@@ -14,8 +14,6 @@ export async function GET(req : NextRequest) {
          
         connectDB()
         let currentUser = await User.findOne({email:email})
-        console.log(currentUser)
-        console.log(email)
         return res.json({message:"success",user:currentUser})
     
     }

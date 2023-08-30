@@ -28,7 +28,6 @@ const Post = (props:any) => {
   const [likeStatus,setLikeStatus] = useState(post.likes.includes(user_id))
   
   const handlePostLike = async() =>{
-    console.log(likeStatus?'like':'unlike')
       try{
           setLikes({...likes,currentState: likeStatus ? likes.currentState - 1 : likes.currentState + 1})
           setLikeStatus(!likeStatus)

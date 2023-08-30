@@ -22,3 +22,10 @@
 .transit{
   transition: 0.3s;
 }
+
+input:focus,input:active,textarea:focus,textarea:active{
+  @apply outline-0 border-violet-500 border-2
+}
+input,textarea{
+  @apply outline-0 border-transparent border-2
+}

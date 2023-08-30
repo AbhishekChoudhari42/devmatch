@@ -24,14 +24,12 @@ const Page = () => {
   const postQuery = useQuery(
     ['post'],
     async () => {
-     
-          console.log("params===",params)
+          console.log('fetch post')
           const res = await fetchPostById(`${params?.id}`)
           return res?.post
         
       },      
       )
-  // console.log("postQuery====",postQuery)
 
   useEffect(() => {
     (async function(){
@@ -44,8 +42,11 @@ const Page = () => {
   const handleComment = async() =>{
     const user = await getUser(`${session?.user?.email}`)
     await addComment(`${params.id}`,user?.user_id,comment,user?.username)
-    console.log("commented")
     const commentData = await fetchComments(1,`${params.id}`)
+    queryClient.invalidateQueries({
+      queryKey: ['post'],
+      exact: true,
+    })
     setCommentList(()=>{return commentData?.comments})
   }
 
