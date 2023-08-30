@@ -11,6 +11,7 @@ import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import SkeletonLoader from '@/components/ui/SkeletonLoader'
 import { useQuery , useQueryClient } from '@tanstack/react-query'
+import Comment from '@/components/ui/Comment'
 const Page = () => {
   const queryClient = useQueryClient()
   
@@ -40,7 +41,7 @@ const Page = () => {
   }, [])
   
   const handleComment = async() =>{
-    const user = await getUser(`${session?.user?.email}`)
+    const user = await getUser(String(session?.user?.email))
     await addComment(`${params.id}`,user?.user_id,comment,user?.username)
     const commentData = await fetchComments(1,`${params.id}`)
     queryClient.invalidateQueries({
@@ -59,15 +60,17 @@ const Page = () => {
 
         {postQuery.data && <Post post={postQuery.data}/>}
         
-        <div className='flex bg-neutral-800 w-full rounded-md items-center p-2 mb-2'> 
+        <div className='flex bg-neutral-800 w-full rounded-md items-center p-2 mb-4'> 
           <input placeholder='comment' value={comment} onChange={(e)=>{setComment(e.target.value)}} className='flex-grow mr-2 rounded-md p-2 bg-neutral-800 text-neutral-200' type="text" />
-          <Button style='h-10 bg-violet-500 rounded-md' handleClick={handleComment} isLoading={false}><AiOutlineSend size={20} className="text-white" /></Button>
+          <Button style='h-10 bg-violet-500 border-violet-500 rounded-md ' handleClick={handleComment} isLoading={false}><AiOutlineSend size={20} className="text-white" /></Button>
         </div>
 
         <div className='text-white'>
           {postQuery.isLoading && <SkeletonLoader qty={5} styles='h-[160px]'/>}
           {commentList && commentList.map((comment:any)=>{
-            return <div key={comment?._id}>{comment?.content}</div>
+            
+            // return <div key={comment?._id}>{comment?.content}</div>
+            return <div key={comment?._id}><Comment comment={comment} /></div>
           })}
         </div>
     </div>

@@ -4,7 +4,17 @@ const commentSchema = new Schema({
     content: String,
     username: String,
     user_id:String,
-    postId:String
+    postId:String,
+    likes:{
+        type:[String],
+        default:[]
+    },
+    comments:[{
+        type:mongoose.Schema.Types.ObjectId,
+        default:[],
+        ref:"Comment",
+    }],
+
 },
 {
     timestamps:true

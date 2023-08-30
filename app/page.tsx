@@ -15,7 +15,7 @@ export default function Page() {
   useEffect(() => {
     
     (async function(){
-       setUser(await getUser(`${session?.user?.email}`))
+       setUser(await getUser(String(session?.user?.email)))
     })()
     
   }, [])

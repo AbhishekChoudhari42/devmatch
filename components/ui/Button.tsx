@@ -17,7 +17,7 @@ const Button = ({isLoading,handleClick,children,style}:ButtonProps) => {
 
 
   return (
-    <button className={`${style} p-4 flex justify-center items-center`} onClick={handleClick}>
+    <button className={`${style} p-4 flex justify-center items-center border-2`} onClick={handleClick}>
         {!isLoading && <div>
           {children}
         </div>}

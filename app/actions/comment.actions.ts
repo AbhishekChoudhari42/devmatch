@@ -40,7 +40,36 @@ export const fetchComments = async(page:number,postId:string) => {
         return {message:error,comments:[]}
     
     }
+    
+}
 
 
+export const likeComment = async (commentId:string,user_id:string) => {
 
+    try{
+
+        
+        connectDB()
+        
+        const comment = await Comment.findById(commentId);
+        
+        if (!comment) {
+            return { success:false }   
+        }
+
+        const status = !comment?.likes.includes(user_id)
+            
+        if(status){        
+            await Comment.findByIdAndUpdate(commentId, { $push: { likes: user_id } });       
+        }
+
+        if(!status){            
+            await Comment.findByIdAndUpdate(commentId, { $pull: { likes: user_id } });
+        }
+
+        return {success:true}
+
+    }catch(error){
+        return {success:false}
+    }
 }
