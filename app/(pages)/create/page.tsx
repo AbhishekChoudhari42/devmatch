@@ -16,7 +16,7 @@ const page = () => {
     const [content,setContent] = useState("")
     const userEmail = String(session?.user?.email)
     
-    const [isPending,startTransition] = useTransition()
+    // const [isPending,startTransition] = useTransition()
     
     const handleSubmit = async (e:any) => {
         e.preventDefault()
@@ -32,13 +32,16 @@ const page = () => {
         
             const {user_id,username,_id} = await getUser(userEmail)
             
-            startTransition(()=>createPost({content,_id,user_id,username,path}))
+            // startTransition(()=>createPost({content,_id,user_id,username,path}))
+            console.log("user===",{user_id,username,_id})
+            await createPost({content,_id,user_id,username,path})
             setContent('')
 
             router.push('/')
         
         }catch(error){
 
+            return {message:error}
     
         }
     }
@@ -60,7 +63,7 @@ const page = () => {
                 onClick={handleSubmit}
                 className='text-white bg-violet-500 p-2 w-full rounded-md flex justify-center'
             >
-            <p className='flex items-center gap-4'>Create{isPending && <AiOutlineLoading3Quarters color="white" className="animate-spin"/>}</p>
+            <p className='flex items-center gap-4'>Create{true && <AiOutlineLoading3Quarters color="white" className="animate-spin"/>}</p>
             </button>
         </form>
     </div>
