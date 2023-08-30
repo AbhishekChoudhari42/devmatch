@@ -23,10 +23,9 @@ interface PostTypes{
 const Post = (props:any) => {
   
   const {post} = props
-  const user_id = '80809554'
   const { data: session, status } = useSession() 
   const [likes,setLikes] = useState({initialState : post.likes.length , currentState:post.likes.length})
-  const [likeStatus,setLikeStatus] = useState(post.likes.includes(user_id))
+  const [likeStatus,setLikeStatus] = useState(post.likes.includes(post?.user_id))
   
   const handlePostLike = async() =>{
       try{
