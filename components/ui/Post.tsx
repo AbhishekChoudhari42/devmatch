@@ -9,7 +9,8 @@ import {useState} from 'react'
 import useUserStore from '@/state/store'
 import { useSession } from "next-auth/react"
 import Link from 'next/link'
-import { getUser } from '@/client_api/api'
+import { getUser } from '@/app/actions/user.actions'
+// import { getUser } from '@/client_api/api'
 interface PostTypes{
     _id:string,
     user_id:string,
@@ -31,7 +32,7 @@ const Post = (props:any) => {
       try{
           setLikes({...likes,currentState: likeStatus ? likes.currentState - 1 : likes.currentState + 1})
           setLikeStatus(!likeStatus)
-          const user = await getUser(String(session?.user?.email))
+          const {user} = await getUser(String(session?.user?.email))
           const res =  await likePost(post._id,user?.user_id)
           if(!res.success){
             alert('post liked')
