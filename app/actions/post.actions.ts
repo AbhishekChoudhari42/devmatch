@@ -5,20 +5,19 @@ import { revalidatePath } from "next/cache";
 
 interface Postparams{
     content:string,
-    _id:string,
     user_id:string,
     username:string,
     path:string
 }
 
-export const createPost = async ({content,user_id,path}:Postparams) => {
+export const createPost = async ({content,user_id,username,path}:Postparams) => {
     
     console.log("creating post")
     try{
 
         connectDB()
         console.log('connect db')
-        await Post.create({content,user_id})
+        await Post.create({content,user_id,username})
         console.log("submit")
         revalidatePath('/')
         console.log('created post')

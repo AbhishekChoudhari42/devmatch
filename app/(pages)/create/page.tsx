@@ -3,7 +3,7 @@ import { useSession } from 'next-auth/react'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import { createPost } from "@/app/actions/post.actions"
-import { getUser } from '@/client_api/api'
+import { getUser } from '@/app/actions/user.actions'
 import { useTransition } from 'react'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 import { useRouter } from 'next/navigation'
@@ -30,11 +30,13 @@ const page = () => {
             
             }
         
-            const {user_id,username,_id} = await getUser(userEmail)
+            const {user} = await getUser(userEmail)
             
             // startTransition(()=>createPost({content,_id,user_id,username,path}))
-            console.log("user===",{user_id,username,_id})
-            await createPost({content,_id,user_id,username,path})
+            console.log("user===",user)
+            const user_id = String(user?.user_id)
+            const username = String(user?.username)
+            await createPost({content,user_id,username,path})
             setContent('')
 
             router.push('/')

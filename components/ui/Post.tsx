@@ -32,7 +32,7 @@ const Post = (props:any) => {
           setLikes({...likes,currentState: likeStatus ? likes.currentState - 1 : likes.currentState + 1})
           setLikeStatus(!likeStatus)
           const {user} = await getUser(String(session?.user?.email))
-          const res =  await likePost(post._id,user?.user_id)
+          const res =  await likePost(post._id,String(user?.user_id))
           if(!res.success){
             alert('post liked')
             setLikes({...likes,currentState:likes.initialState})

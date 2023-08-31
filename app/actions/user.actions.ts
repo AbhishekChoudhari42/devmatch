@@ -2,7 +2,18 @@
 
 import User from "@/db/models/User"
 import connectDB from "@/db/mongodb"
+type User = {
+    username: String,
+    email: String,
+    bio: String,
+    user_id: String,
+    location: String,
+}
 
+type ReturnUser = {
+    message : string,
+    user:User
+}
 export const getUser = async (email:string) => {
 
     try{
@@ -10,7 +21,7 @@ export const getUser = async (email:string) => {
         
         connectDB()
         let currentUser = await User.findOne({email:email})
-        return {message:"success",user:currentUser}
+        return {message:"success",user:currentUser as User}
         
     }
     catch(error){
