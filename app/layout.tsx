@@ -8,7 +8,6 @@ import SideNavigation from '../components/shared/SideNavigation'
 import Bottombar from '../components/shared/Bottombar'
 import ReactQueryProvider from './ReactQueryProvider'
 import { getServerSession } from 'next-auth'
-import { authOptions } from './api/auth/[...nextauth]/route'
 
 const inter = Inter({ subsets: ['latin'] })
 
