@@ -1,5 +1,5 @@
 "use client"
-import {useEffect,useState} from 'react'
+import {useEffect,useState,useTransition} from 'react'
 import { useParams } from 'next/navigation'
 import { fetchPostById } from '@/app/actions/post.actions'
 import Post from '@/components/ui/Post'
@@ -11,17 +11,18 @@ import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import SkeletonLoader from '@/components/ui/SkeletonLoader'
 import { useQuery , useQueryClient } from '@tanstack/react-query'
+
 import Comment from '@/components/ui/Comment'
 const Page = () => {
   const queryClient = useQueryClient()
   
-  const [post,setPost] = useState(null)
   const [comment,setComment] = useState('')
+  
   const [commentList,setCommentList] = useState<any>([])
   const {data:session,status} = useSession()
   
-
   const params = useParams() 
+  
   const postQuery = useQuery(
     ['post'],
     async () => {
@@ -31,6 +32,7 @@ const Page = () => {
         
       },      
       )
+
 
   useEffect(() => {
     (async function(){
@@ -62,7 +64,7 @@ const Page = () => {
         
         <div className='flex bg-neutral-800 w-full rounded-md items-center p-2 mb-4'> 
           <input placeholder='comment' value={comment} onChange={(e)=>{setComment(e.target.value)}} className='flex-grow mr-2 rounded-md p-2 bg-neutral-800 text-neutral-200' type="text" />
-          <Button style='h-10 bg-violet-500 border-violet-500 rounded-md ' handleClick={handleComment} isLoading={false}><AiOutlineSend size={20} className="text-white" /></Button>
+          <Button style='w-20 bg-violet-500 border-violet-500' handleClick={handleComment} isLoading={false}><AiOutlineSend size={20} className="text-white" /></Button>
         </div>
 
         <div className='text-white'>

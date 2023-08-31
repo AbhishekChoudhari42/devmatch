@@ -7,6 +7,7 @@ import { getUser } from '@/app/actions/user.actions'
 import { useTransition } from 'react'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 import { useRouter } from 'next/navigation'
+import Button from '@/components/ui/Button'
 const page = () => {
 
     const { data: session, status } = useSession()
@@ -16,7 +17,7 @@ const page = () => {
     const [content,setContent] = useState("")
     const userEmail = String(session?.user?.email)
     
-    // const [isPending,startTransition] = useTransition()
+    const [isPending,startTransition] = useTransition()
     
     const handleSubmit = async (e:any) => {
         e.preventDefault()
@@ -32,11 +33,11 @@ const page = () => {
         
             const {user} = await getUser(userEmail)
             
-            // startTransition(()=>createPost({content,_id,user_id,username,path}))
             console.log("user===",user)
             const user_id = String(user?.user_id)
             const username = String(user?.username)
-            await createPost({content,user_id,username,path})
+
+            startTransition(()=>createPost({content,user_id,username,path}))
             setContent('')
 
             router.push('/')
@@ -61,12 +62,14 @@ const page = () => {
             />
             {/*  */}
 
-            <button 
+            <Button style='bg-violet-500 border-violet-500 w-full' handleClick={handleSubmit} isLoading={isPending}>Create</Button>
+            {/* <button 
                 onClick={handleSubmit}
-                className='text-white bg-violet-500 p-2 w-full rounded-md flex justify-center'
+                className='text-white bg-violet-500 w-full rounded-md flex justify-center items-center h-10'
             >
-            <p className='flex items-center gap-4'>Create{true && <AiOutlineLoading3Quarters color="white" className="animate-spin"/>}</p>
-            </button>
+            {!isPending ? <p>Create</p> : <AiOutlineLoading3Quarters color="white" className="animate-spin absolute"/>
+            }
+            </button> */}
         </form>
     </div>
     )

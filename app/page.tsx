@@ -5,20 +5,27 @@ import Post from "@/components/ui/Post"
 import { useIntersection } from "@mantine/hooks"
 import { useEffect,useRef,useState } from "react"
 import { useSession } from "next-auth/react"
-import { getUser } from "@/client_api/api"
+import { getUser } from "@/app/actions/user.actions"
 import useUserStore from '../state/store'
 import SkeletonLoader from "@/components/ui/SkeletonLoader"
 export default function Page() {
 
   const { data: session, status } = useSession()  
   const {user,setUser} = useUserStore()
-  useEffect(() => {
+
+   
+
+    useEffect(() => {
     
-    (async function(){
-       setUser(await getUser(String(session?.user?.email)))
-    })()
+      const getCurrentUser = async () =>{
+        const user =  await getUser(String(session?.user?.email))  
+        setUser(user.user)
+      }
+      getCurrentUser()
     
-  }, [])
+    }, [session])
+    
+    
   const [pageEnd,setPageEnd] = useState(false)
   const {data,fetchNextPage,hasNextPage,isFetchingNextPage,error,isLoading} = useInfiniteQuery(
     ["feed"],
@@ -58,11 +65,11 @@ export default function Page() {
 
   return (
     <main className="w-full bg-neutral-950 text-white">       
-       {!isLoading ? (data?.pages?.map((page,index)=>{
+       {!isLoading && user ? (data?.pages?.map((page,index)=>{
           return <div key={index}>
                                 
             { 
-              page?.posts?.map(post => { return <div key={post._id}><Post post={post}/></div>}) 
+              page?.posts?.map(post => { return <div key={post._id}><Post post={post} user={user}/></div>}) 
                                 
             }
             

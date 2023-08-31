@@ -6,11 +6,9 @@ import {RiSendPlaneFill,RiUserFollowLine,RiUserFollowFill} from 'react-icons/ri'
 import {likePost} from '../../app/actions/post.actions'
 import Image from 'next/image'
 import {useState} from 'react'
-import useUserStore from '@/state/store'
 import { useSession } from "next-auth/react"
 import Link from 'next/link'
 import { getUser } from '@/app/actions/user.actions'
-// import { getUser } from '@/client_api/api'
 interface PostTypes{
     _id:string,
     user_id:string,
@@ -21,12 +19,11 @@ interface PostTypes{
 }
 
 const Post = (props:any) => {
-  
-  const {post} = props
+  const {post,user} = props
   const { data: session, status } = useSession() 
   const [likes,setLikes] = useState({initialState : post.likes.length , currentState:post.likes.length})
-  const [likeStatus,setLikeStatus] = useState(post.likes.includes(post?.user_id))
-  
+  const [likeStatus,setLikeStatus] = useState(post.likes.includes(user?.user_id))
+
   const handlePostLike = async() =>{
       try{
           setLikes({...likes,currentState: likeStatus ? likes.currentState - 1 : likes.currentState + 1})
