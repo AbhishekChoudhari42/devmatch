@@ -20,7 +20,7 @@ interface PostTypes{
 
 const Post = (props:any) => {
   const {post,user} = props
-  const { data: session, status } = useSession() 
+
   const [likes,setLikes] = useState({initialState : post.likes.length , currentState:post.likes.length})
   const [likeStatus,setLikeStatus] = useState(post.likes.includes(user?.user_id))
 
@@ -28,7 +28,6 @@ const Post = (props:any) => {
       try{
           setLikes({...likes,currentState: likeStatus ? likes.currentState - 1 : likes.currentState + 1})
           setLikeStatus(!likeStatus)
-          const {user} = await getUser(String(session?.user?.email))
           const res =  await likePost(post._id,String(user?.user_id))
           if(!res.success){
             alert('post liked')
