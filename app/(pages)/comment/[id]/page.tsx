@@ -52,23 +52,23 @@ const Page = () => {
     addCommentQuery.mutate()
   }
 
-  const fetchCommentsQuery = useInfiniteQuery(
-    ['comment'],
-    async ({ pageParam = 1 }) => {
+  const fetchCommentsQuery = useInfiniteQuery({
+    queryKey: ['comment'],
+    queryFn: async ({ pageParam = 1 }) => {
       console.log("fetch comment")
       const response = await fetchComments(Number(pageParam), String(params?.id))
       return { comments: response?.comments, isNextPage: response?.isNextPage }
 
     },
-    {
-      getNextPageParam: (_, pages) => {
+    getNextPageParam: (_, pages) => {
         return pages[pages.length - 1]?.isNextPage ? pages.length + 1 : undefined
       },
-      initialData: {
+    initialData: {
         pages: [],
         pageParams: [1]
-      }
-    }
+      },
+    cacheTime:0
+  }
   )
 
   const lastPostRef = useRef<HTMLDivElement | null>(null)
@@ -82,8 +82,12 @@ const Page = () => {
     if (entry?.isIntersecting) {
       fetchCommentsQuery.fetchNextPage()
     }
+
   }, [entry])
 
+  useEffect(()=>{
+    queryClient.invalidateQueries({queryKey:['comment']});
+  },[])
 
   return (
     <div className='w-full flex flex-col'>

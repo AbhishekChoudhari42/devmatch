@@ -59,9 +59,7 @@ export const fetchPostById = async (id:string) => {
         console.log('fetch single post',id)
 
         const post = await Post.findById(id)
-                    
-        // console.log('posts===',{post:post})
-        
+                            
         return {message:'success',post:post}
 
     }catch(error){
