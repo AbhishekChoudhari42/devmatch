@@ -17,13 +17,13 @@ interface CommentTypes {
 
 }
 
-const Comment = ({ comment, user }: any) => {
+const Comment = (props: any) => {
 
   const { data: session, status } = useSession()
+  const { comment, user } = props
 
   const [likes, setLikes] = useState({ initialState: comment?.likes?.length, currentState: comment?.likes?.length })
   const [likeStatus, setLikeStatus] = useState(comment?.likes?.includes(user?.user_id))
-
   const handleCommentLike = async () => {
     try {
       setLikes({ ...likes, currentState: likeStatus ? likes.currentState - 1 : likes.currentState + 1 })
