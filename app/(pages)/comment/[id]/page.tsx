@@ -90,9 +90,9 @@ const Page = () => {
       {/* <div className='text-white'>
         <h2 className='font-semibold mb-2'>Comments</h2>
       </div> */}
-      
+
       {/* post */}
-      {(!postQuery.isLoading && postQuery.data) ?
+      {(!postQuery.isLoading && postQuery.data && user) ?
         <Post post={postQuery.data} user={user} />
         : <SkeletonLoader qty={1} styles='h-[160px]' />
       }
@@ -103,7 +103,7 @@ const Page = () => {
       </div>
 
       <div className='text-white'>
-        {!fetchCommentsQuery.isLoading && user ? (fetchCommentsQuery.data?.pages?.map((page, index) => {
+        {(!fetchCommentsQuery.isLoading && user) ? (fetchCommentsQuery.data?.pages?.map((page, index) => {
           return <div key={index}>
             {
               page?.comments?.map(comment => { return <div key={comment?._id}><Comment comment={comment} user={user} /></div> })
