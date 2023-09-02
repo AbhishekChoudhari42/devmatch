@@ -7,7 +7,7 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { useSession } from "next-auth/react"
 import Link from 'next/link'
-import { getUser } from '@/client_api/api'
+import { getUser } from '@/app/actions/user.actions'
 interface CommentTypes {
   _id: string,
   user_id: string,
@@ -21,14 +21,14 @@ const Comment = (props: any) => {
 
   const { data: session, status } = useSession()
   const { comment, user } = props
-
+  console.log(user)
   const [likes, setLikes] = useState({ initialState: comment?.likes?.length, currentState: comment?.likes?.length })
   const [likeStatus, setLikeStatus] = useState(comment?.likes?.includes(user?.user_id))
   const handleCommentLike = async () => {
     try {
       setLikes({ ...likes, currentState: likeStatus ? likes.currentState - 1 : likes.currentState + 1 })
       setLikeStatus(!likeStatus)
-      const user = await getUser(String(session?.user?.email))
+      const {user} = await getUser(String(session?.user?.email))
       const res = await likeComment(comment._id, user?.user_id)
       if (!res?.success) {
         setLikes({ ...likes, currentState: likes.initialState })
