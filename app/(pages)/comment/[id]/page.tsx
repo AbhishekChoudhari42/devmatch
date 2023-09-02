@@ -1,7 +1,7 @@
 "use client"
 import { useEffect, useState, useRef } from 'react'
 import { useIntersection } from "@mantine/hooks"
-import { useQuery, useQueryClient, useInfiniteQuery,useMutation } from '@tanstack/react-query'
+import { useQuery, useQueryClient, useInfiniteQuery, useMutation } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import useUserStore from '@/state/store'
@@ -20,12 +20,12 @@ const Page = () => {
   const queryClient = useQueryClient()
   const { user } = useUserStore()
   const [comment, setComment] = useState('')
-  
+  console.log(user)
   const [commentList, setCommentList] = useState<any>([])
   const { data: session, status } = useSession()
-  
+
   const params = useParams()
-  
+
   const postQuery = useQuery(
     ['post'],
     async () => {
@@ -33,31 +33,31 @@ const Page = () => {
       const res = await fetchPostById(String(params?.id))
       return res?.post
     },
-    )
-    
-    const addCommentQuery = useMutation({
-      mutationFn: async ()=>{ 
-        const {user} = await getUser(String(session?.user?.email))
-        const res = await addComment(String(params?.id), user?.user_id, comment, user?.username)
-        return res?.success
-      },
-      onSuccess:()=>{
-        setComment('')
-        queryClient.invalidateQueries({queryKey: ['comment']})
-        queryClient.invalidateQueries({queryKey: ['post']})
-      }
-    })
-    
-    const handleComment = async () => {
-      addCommentQuery.mutate()
-    }
+  )
 
-    const fetchCommentsQuery = useInfiniteQuery(
-      ['comment'],
-      async ({ pageParam = 1 }) => {
-        console.log("fetch comment")
-        const response = await fetchComments(Number(pageParam), String(params?.id))
-        return { comments: response?.comments, isNextPage: response?.isNextPage }
+  const addCommentQuery = useMutation({
+    mutationFn: async () => {
+      const { user } = await getUser(String(session?.user?.email))
+      const res = await addComment(String(params?.id), user?.user_id, comment, user?.username)
+      return res?.success
+    },
+    onSuccess: () => {
+      setComment('')
+      queryClient.invalidateQueries({ queryKey: ['comment'] })
+      queryClient.invalidateQueries({ queryKey: ['post'] })
+    }
+  })
+
+  const handleComment = async () => {
+    addCommentQuery.mutate()
+  }
+
+  const fetchCommentsQuery = useInfiniteQuery(
+    ['comment'],
+    async ({ pageParam = 1 }) => {
+      console.log("fetch comment")
+      const response = await fetchComments(Number(pageParam), String(params?.id))
+      return { comments: response?.comments, isNextPage: response?.isNextPage }
 
     },
     {
@@ -107,7 +107,6 @@ const Page = () => {
           return <div key={index}>
             {
               page?.comments?.map(comment => { return <div key={comment?._id}><Comment comment={comment} user={user} /></div> })
-
             }
           </div>
         })) : <SkeletonLoader styles="h-[200px]" qty={5} />
