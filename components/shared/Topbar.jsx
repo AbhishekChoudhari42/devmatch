@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import useUserStore from '@/state/store'
-import { getUser } from '@/client_api/api'
+import { getUser } from '@/app/actions/user.actions'
 import { useEffect } from 'react'
 const Topbar = () => {
 
@@ -14,7 +14,7 @@ const Topbar = () => {
   useEffect(() => {
     const getCurrentUser = async () => {
       if (session) {
-        const user = await getUser(String(session?.user?.email))
+        const {user} = await getUser(String(session?.user?.email))
         setUser(user)
         console.log(user)
       }
