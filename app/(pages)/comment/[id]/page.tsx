@@ -87,9 +87,10 @@ const Page = () => {
 
   return (
     <div className='w-full flex flex-col'>
-      <div className='text-white'>
+      {/* <div className='text-white'>
         <h2 className='font-semibold mb-2'>Comments</h2>
-      </div>
+      </div> */}
+      
       {/* post */}
       {(!postQuery.isLoading && postQuery.data) ?
         <Post post={postQuery.data} user={user} />

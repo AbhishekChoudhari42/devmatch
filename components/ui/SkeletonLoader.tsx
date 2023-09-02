@@ -7,7 +7,7 @@ const SkeletonLoader = ({ styles, qty }: { styles: string, qty: number }) => {
         <div className='w-full'>
             {
                 array.map((BiLoader, index) => {
-                    return <div key={index} className={`w-full flex justify-center items-center bg-neutral-800 rounded-md mb-4 mt-2 animate-pulse  ${styles}`}>
+                    return <div key={index} className={`w-full flex justify-center items-center bg-neutral-800 rounded-md mb-4 animate-pulse ${styles}`}>
                         {/* <BiLoader size={32} className="animate-spin text-neutral-700"/> */}
                     </div>
                 })

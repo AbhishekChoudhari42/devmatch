@@ -59,25 +59,25 @@ const Post = (props: any) => {
       <div className="flex items-center gap-8">
         {/* likes */}
 
-        <div className='p-2 rounded-full hover:bg-red-950 hover:text-red-300 transit'>
+        <div className='rounded-full hover:text-red-400 transit cursor-pointer'>
 
-          {likeStatus ? <AiFillHeart onClick={handlePostLike} className='text-red-500' /> :
+          {likeStatus ? <AiFillHeart size={20} onClick={handlePostLike} className='text-red-500' /> :
 
-            <AiOutlineHeart onClick={handlePostLike}/>
+            <AiOutlineHeart size={20} onClick={handlePostLike}/>
           }
 
         </div>
 
-        <p className="text-sm text-red-100 hover:text-red-400">{likes.currentState}</p>
+        <p className="text-sm text-white hover:text-red-400">{likes.currentState}</p>
         {/* comments */}
         <Link href={`/comment/${post._id}`}>
-          <div className='p-2 rounded-full hover:bg-blue-950 hover:text-blue-200 transit'>
-            <BiCommentDetail />
+          <div className='rounded-full hover:text-blue-400 transit'>
+            <BiCommentDetail size={20} />
           </div>
         </Link>
         <p className="text-sm text-red-100 hover:text-red-400">{post.comments?.length}</p>
         {/* share */}
-        <RiSendPlaneFill className='' />
+        <RiSendPlaneFill size={20} className='' />
       </div>
     </div>
   )

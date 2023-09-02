@@ -60,17 +60,16 @@ const Comment = ({ comment, user }: any) => {
       <div className="flex items-center gap-8">
         {/* likes */}
 
-        {likeStatus ? <AiFillHeart onClick={handleCommentLike} className='text-red-500' /> :
-          <AiOutlineHeart onClick={handleCommentLike} className='text-white' />}
-
+        {likeStatus ? <AiFillHeart size={20} onClick={handleCommentLike} className='text-red-500' /> :
+          <AiOutlineHeart size={20} onClick={handleCommentLike} className='text-white' />}
         <p className="text-sm text-red-100 hover:text-red-400">{likes?.currentState}</p>
         {/* comments */}
         <Link href={`/comment/${comment?._id}`}>
-          <BiCommentDetail />
+          <BiCommentDetail size={20} />
         </Link>
         <p className="text-sm text-red-100 hover:text-red-400">{comment?.comments?.length}</p>
         {/* share */}
-        <RiSendPlaneFill className='' />
+        <RiSendPlaneFill size={20} className='' />
       </div>
     </div>
   )
