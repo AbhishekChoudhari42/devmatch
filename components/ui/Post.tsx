@@ -46,17 +46,17 @@ const Post = (props: any) => {
 
         <div className="flex items-center ">
           <Image height={28} width={28} className='rounded-md' src={`https://avatars.githubusercontent.com/u/${post.user_id}?v=4`} alt="profile image" />
-          <h2 className="ml-4 font-bold text-lg text-neutral-300">{post.user_id}</h2>
+          <h2 className="ml-4 text-lg font-bold text-white">{post.username}</h2>
         </div>
 
       </div>
 
       {/* post content */}
-      <p className=" text-white text-md bg-neutral-950 rounded-md mb-4 leading-8">
+      <p className=" text-white text-md bg-neutral-950 rounded-md my-8">
         {post.content}
       </p>
 
-      <div className="flex items-center gap-8">
+      <div className="flex items-center gap-4">
         {/* likes */}
 
         <div className='rounded-full hover:text-red-400 transit cursor-pointer'>
@@ -68,14 +68,14 @@ const Post = (props: any) => {
 
         </div>
 
-        <p className="text-sm text-white hover:text-red-400">{likes.currentState}</p>
+        <p className="text-sm text-white hover:text-red-400 mr-4">{likes.currentState}</p>
         {/* comments */}
         <Link href={`/comment/${post._id}`}>
           <div className='rounded-full hover:text-blue-400 transit'>
             <BiCommentDetail size={20} />
           </div>
         </Link>
-        <p className="text-sm text-red-100 hover:text-red-400">{post.comments?.length}</p>
+        <p className="text-sm text-red-100 hover:text-red-400 mr-4">{post.comments?.length}</p>
         {/* share */}
         <RiSendPlaneFill size={20} className='' />
       </div>
