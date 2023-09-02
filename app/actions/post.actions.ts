@@ -33,24 +33,20 @@ export const fetchPosts = async (page:number) =>{
         const limit = 5
         const skip = (page - 1) * limit
         
-        const path = '/'
 
         try{
 
             connectDB()
-            console.log('connect')
             const posts = await Post.find().skip(skip).limit(limit).sort({ createdAt: "desc" });
                 
             const totalDocs = await Post.countDocuments()
             const isNextPage = page <= (Math.ceil(totalDocs/limit))
-            console.log('posts===',{posts:posts})
             
-            revalidatePath(path)
             return {message:'success',posts:posts,isNextPage}
     
         }catch(error){
 
-            return {message:'error occurred',posts:[]}
+            return {message:error,posts:[]}
         
         }
 

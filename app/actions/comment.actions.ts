@@ -18,14 +18,18 @@ export const addComment = async (postId:string,user_id:string,content:string,use
         
         await Post.findByIdAndUpdate(postId, { $push: { comments: comment?._id}});       
 
-        revalidatePath(`/comment/${postId}`)
+        return {success:true}
 
     }catch(error){
         return {success:false}
     }
 }
-
-export const fetchComments = async(page:number,postId:string) => {
+interface CommentsType{
+    message:string,
+    comments:any,
+    isNextPage:boolean
+}
+export const fetchComments = async<CommentsType>(page:number,postId:string) => {
     const limit = 10
     const skip = (page - 1) * limit
 
@@ -33,11 +37,15 @@ export const fetchComments = async(page:number,postId:string) => {
 
         connectDB()
         const comments = await Comment.find({postId}).skip(skip).limit(limit).sort({ createdAt: "desc" });
-        return {message:'success',comments}
+
+        const totalDocs = await Comment.countDocuments()
+        const isNextPage = page <= (Math.ceil(totalDocs/limit))
+
+        return {message:'success',comments:comments,isNextPage}
 
     }catch(error){
 
-        return {message:error,comments:[]}
+        return {message:error,comments:[],isNextPage:false}
     
     }
     

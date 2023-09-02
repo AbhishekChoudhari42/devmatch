@@ -11,20 +11,26 @@ type User = {
 }
 
 type ReturnUser = {
-    message : string,
-    user:User
-}
-export const getUser = async (email:string) => {
-
-    try{
-        
-        
-        connectDB()
-        let currentUser = await User.findOne({email:email})
-        return {message:"success",user:currentUser as User}
-        
+    message: string,
+    user: {
+        username: String,
+        email: String,
+        bio: String,
+        user_id: String,
+        location: String,
     }
-    catch(error){
-        return {message:"error"}
+}
+export const getUser = async <ReturnUser>(email: string) => {
+
+    try {
+
+
+        connectDB()
+        let currentUser = await User.findOne({ email: email })
+        return { message: "success", user: currentUser }
+
+    }
+    catch (error) {
+        return { message: "error" }
     }
 }

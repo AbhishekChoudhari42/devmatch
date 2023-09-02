@@ -10,28 +10,14 @@ import useUserStore from '../state/store'
 import SkeletonLoader from "@/components/ui/SkeletonLoader"
 export default function Page() {
 
-  const { data: session, status } = useSession()  
-  const {user,setUser} = useUserStore()
-
-   
-
-    useEffect(() => {
-    
-      const getCurrentUser = async () =>{
-        const user =  await getUser(String(session?.user?.email))  
-        setUser(user.user)
-      }
-      getCurrentUser()
-    
-    }, [session])
-    
-    
+  const {user} = useUserStore()    
   const [pageEnd,setPageEnd] = useState(false)
+  console.log('userpost==',user)
   const {data,fetchNextPage,hasNextPage,isFetchingNextPage,error,isLoading} = useInfiniteQuery(
     ["feed"],
     async ({pageParam = 1}) => { 
 
-        let response =  await fetchPosts(pageParam)
+        const response =  await fetchPosts(pageParam)
         return {posts: response?.posts,isNextPage: response?.isNextPage}
     
     },
@@ -45,7 +31,7 @@ export default function Page() {
         }
     }
   )
-
+ 
   const lastPostRef = useRef<HTMLDivElement|null>(null)
 
     const {ref,entry} = useIntersection({
