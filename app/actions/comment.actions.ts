@@ -81,3 +81,36 @@ export const likeComment = async (commentId:string,user_id:string) => {
         return {success:false}
     }
 }
+
+// update
+export const updateCommentById = async (comment_id:string,content:string,user_id:string) =>{
+
+    try{
+        connectDB()
+        const comment = await Comment.findById(comment_id);
+
+        if(comment?.user_id === user_id){
+            const res = await Comment.updateOne({_id:comment._id},{content:content})
+            return {success:true,comment:comment?.user_id,requser:user_id}
+            
+        }
+
+        return {message:'auth required',success:false}
+
+    }catch(error){
+        return {message:error,success:false}
+    }
+}
+
+// delete
+export const deleteCommentById = async (comment_id:string,user_id:string) =>{
+
+    try{
+        connectDB()
+        const res = await Comment.findByIdAndDelete(comment_id)
+        return {success:true}
+
+    }catch(error){
+        return {message:error,success:false}
+    }
+}

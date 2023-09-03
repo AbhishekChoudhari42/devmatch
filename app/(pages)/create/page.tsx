@@ -13,8 +13,9 @@ const page = () => {
     const { data: session, status } = useSession()
     const router = useRouter()
     const path = usePathname()
-
+    
     const [content,setContent] = useState("")
+    const CONTENT_LIMIT = 300
     const userEmail = String(session?.user?.email)
     
     const [isPending,startTransition] = useTransition()
@@ -23,11 +24,10 @@ const page = () => {
         e.preventDefault()
 
         try{
-            console.log("creating")
 
-            if(content == "" || content == undefined || content == null){
+            if(content == "" || content == undefined || content == null || content?.length > CONTENT_LIMIT){
                 
-                throw new Error("post content cannot empty")
+                throw new Error("Post content should not be empty or more than "+CONTENT_LIMIT+"characters.")
             
             }
         
@@ -56,20 +56,14 @@ const page = () => {
             <textarea  
                 value={content} 
                 placeholder="What's on your mind ?" 
-                onChange={(e)=>{setContent(e.target.value)}} 
+                onChange={(e)=>{setContent(e.target.value);console.log(content)}} 
                 name="content" 
-                className='text-neutral-100 bg-neutral-950 w-full h-[200px] border-neutral-800 border-2 p-4 rounded-md mb-4' 
+                className={`text-neutral-100 bg-neutral-950 w-full h-[200px] max-h-[300px] border-neutral-800 border-2 p-4 rounded-md ${content?.length > CONTENT_LIMIT && 'focus:border-red-500'}` }
             />
             {/*  */}
-
+            <p className={`my-4 text-xs ${content?.length > CONTENT_LIMIT ? 'text-red-500':'text-neutral-200' }`}>{content?.length}/{CONTENT_LIMIT} {content?.length > CONTENT_LIMIT && "( Content should be less than 300 characters )"}</p>
             <Button style='bg-violet-500 border-violet-500 w-full' handleClick={handleSubmit} isLoading={isPending}>Create</Button>
-            {/* <button 
-                onClick={handleSubmit}
-                className='text-white bg-violet-500 w-full rounded-md flex justify-center items-center h-10'
-            >
-            {!isPending ? <p>Create</p> : <AiOutlineLoading3Quarters color="white" className="animate-spin absolute"/>
-            }
-            </button> */}
+
         </form>
     </div>
     )
