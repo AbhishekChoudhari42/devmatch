@@ -16,8 +16,6 @@ export default function Page() {
   
   
   const {user} = useUserStore()    
-  const [pageEnd,setPageEnd] = useState(false)
-  console.log('userpost==',user)
   const {data,fetchNextPage,hasNextPage,isFetchingNextPage,error,isLoading} = useInfiniteQuery(
     ["feed"],
     async ({pageParam = 1}) => { 

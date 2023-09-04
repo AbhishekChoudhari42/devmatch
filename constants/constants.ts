@@ -1,6 +1,6 @@
 import { GoHome, GoSearch } from 'react-icons/go'
-import { MdOutlineExplore } from 'react-icons/md'
-import { BiMessageDetail } from 'react-icons/bi'
+import { IoCompassOutline } from 'react-icons/io5'
+import { AiOutlineMessage } from 'react-icons/ai'
 import { IoAddCircleOutline } from 'react-icons/io5'
 
 import en from 'javascript-time-ago/locale/en.json'
@@ -12,7 +12,7 @@ export const navElements = [
     { route: "/", label: "Home", icon: GoHome },
     { route: "/search", label: "Search", icon: GoSearch },
     { route: "/create", label: "Create", icon: IoAddCircleOutline },
-    { route: "/explore", label: "Explore", icon: MdOutlineExplore },
-    { route: "/messages", label: "Messages", icon: BiMessageDetail },
+    { route: "/explore", label: "Explore", icon: IoCompassOutline },
+    { route: "/messages", label: "Messages", icon: AiOutlineMessage },
 ]
 
