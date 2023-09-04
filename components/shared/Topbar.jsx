@@ -33,7 +33,7 @@ const Topbar = () => {
       </Link>
 
       <Link href="/profile">
-        <Image height={32} width={32} alt="profile picture" src={session?.user?.image || '/user.png'} className={`rounded-md hover ${path == '/profile' && 'border-2  border-neutral-600 outline-2 outline-neutral-200'}`} />
+        <Image height={32} width={32} alt="profile picture" src={session?.user?.image || '/user.png'} className={`rounded-md hover ${path == '/profile' && 'border  border-neutral-600 outline-2 outline-neutral-200'}`} />
       </Link>
 
     </nav>

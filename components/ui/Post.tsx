@@ -40,7 +40,7 @@ const Post = (props: any) => {
   }
 
   return (
-    <div className="w-full bg-neutral-950 text-white p-4 rounded-md mb-4 border-neutral-800 border-2">
+    <div className="w-full bg-neutral-950 text-white p-4 rounded-md mb-4 border-neutral-800 border">
 
       <div className="flex items-center justify-between mb-4 ">
 

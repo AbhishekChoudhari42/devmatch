@@ -52,13 +52,13 @@ const page = () => {
     return (
 
     <div className="text-white">
-        <form className='w-full h-full p-4 border-neutral-800 border-2 rounded-md'>
+        <form className='w-full h-full p-4 border-neutral-800 border rounded-md'>
             <textarea  
                 value={content} 
                 placeholder="What's on your mind ?" 
                 onChange={(e)=>{setContent(e.target.value);console.log(content)}} 
                 name="content" 
-                className={`text-neutral-100 bg-neutral-950 w-full h-[200px] max-h-[300px] border-neutral-800 border-2 p-4 rounded-md ${content?.length > CONTENT_LIMIT && 'focus:border-red-500'}` }
+                className={`text-neutral-100 bg-neutral-950 w-full h-[200px] max-h-[300px] border-neutral-800 border p-4 rounded-md ${content?.length > CONTENT_LIMIT && 'focus:border-red-500'}` }
             />
             {/*  */}
             <p className={`my-4 text-xs ${content?.length > CONTENT_LIMIT ? 'text-red-500':'text-neutral-200' }`}>{content?.length}/{CONTENT_LIMIT} {content?.length > CONTENT_LIMIT && "( Content should be less than 300 characters )"}</p>
