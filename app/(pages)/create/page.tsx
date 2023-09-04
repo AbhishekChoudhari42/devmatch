@@ -56,7 +56,7 @@ const page = () => {
             <textarea  
                 value={content} 
                 placeholder="What's on your mind ?" 
-                onChange={(e)=>{setContent(e.target.value);console.log(content)}} 
+                onChange={(e)=>{setContent(e.target.value)}} 
                 name="content" 
                 className={`text-neutral-100 bg-neutral-950 w-full h-[200px] max-h-[300px] border-neutral-800 border p-4 rounded-md ${content?.length > CONTENT_LIMIT && 'focus:border-red-500'}` }
             />
