@@ -3,6 +3,11 @@ import { MdOutlineExplore } from 'react-icons/md'
 import { BiMessageDetail } from 'react-icons/bi'
 import { IoAddCircleOutline } from 'react-icons/io5'
 
+import en from 'javascript-time-ago/locale/en.json'
+import TimeAgo from 'javascript-time-ago'
+TimeAgo.addLocale(en)
+TimeAgo.addDefaultLocale(en)
+
 export const navElements = [
     { route: "/", label: "Home", icon: GoHome },
     { route: "/search", label: "Search", icon: GoSearch },

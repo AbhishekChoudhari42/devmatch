@@ -3,6 +3,7 @@
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai'
 import { BiCommentDetail } from 'react-icons/bi'
 import { RiSendPlaneFill, RiUserFollowLine, RiUserFollowFill } from 'react-icons/ri'
+import ReactTimeAgo from 'react-time-ago'
 import { likePost } from '../../app/actions/post.actions'
 import Image from 'next/image'
 import { useState } from 'react'
@@ -56,28 +57,37 @@ const Post = (props: any) => {
         {post.content}
       </p>
 
-      <div className="flex items-center gap-4">
-        {/* likes */}
 
-        <div className='rounded-full hover:text-red-400 transit cursor-pointer'>
 
-          {likeStatus ? <AiFillHeart size={20} onClick={handlePostLike} className='text-red-500' /> :
+      <div className='w-full flex justify-between '>
 
-            <AiOutlineHeart size={20} onClick={handlePostLike}/>
-          }
+        <div className="flex items-center gap-4">
+          {/* likes */}
 
-        </div>
+          <div className='rounded-full hover:text-red-400 transit cursor-pointer'>
 
-        <p className="text-sm text-white hover:text-red-400 mr-4">{likes.currentState}</p>
-        {/* comments */}
-        <Link href={`/comment/${post._id}`}>
-          <div className='rounded-full hover:text-blue-400 transit'>
-            <BiCommentDetail size={20} />
+            {likeStatus ? <AiFillHeart size={20} onClick={handlePostLike} className='text-red-500' /> :
+
+              <AiOutlineHeart size={20} onClick={handlePostLike} />
+            }
+
           </div>
-        </Link>
-        <p className="text-sm text-red-100 hover:text-red-400 mr-4">{post.comments?.length}</p>
-        {/* share */}
-        <RiSendPlaneFill size={20} className='' />
+
+          <p className="text-sm text-white hover:text-red-400 mr-4">{likes.currentState}</p>
+          {/* comments */}
+          <Link href={`/comment/${post._id}`}>
+            <div className='rounded-full hover:text-blue-400 transit'>
+              <BiCommentDetail size={20} />
+            </div>
+          </Link>
+          <p className="text-sm text-red-100 hover:text-red-400 mr-4">{post.comments?.length}</p>
+          {/* share */}
+          <RiSendPlaneFill size={20} className='' />
+        </div>
+        <p className='text-xs text-neutral-500' >
+          <ReactTimeAgo date={post.createdAt} locale={"en-US"} timeStyle="twitter" />
+        </p>
+
       </div>
     </div>
   )

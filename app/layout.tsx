@@ -7,7 +7,7 @@ import RightSidebar from '../components/shared/RightSidebar'
 import SideNavigation from '../components/shared/SideNavigation'
 import Bottombar from '../components/shared/Bottombar'
 import ReactQueryProvider from './ReactQueryProvider'
-import { getServerSession } from 'next-auth'
+
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -21,8 +21,8 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-
-   return (
+  
+  return (
     <html className='w-screen h-full flex justify-center items-center bg-neutral-900' lang="en">
       <body className={inter.className}>
         

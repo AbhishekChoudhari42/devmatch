@@ -8,15 +8,20 @@ import { useSession } from "next-auth/react"
 import { getUser } from "@/app/actions/user.actions"
 import useUserStore from '../state/store'
 import SkeletonLoader from "@/components/ui/SkeletonLoader"
-export default function Page() {
 
+
+
+
+export default function Page() {
+  
+  
   const {user} = useUserStore()    
   const [pageEnd,setPageEnd] = useState(false)
   console.log('userpost==',user)
   const {data,fetchNextPage,hasNextPage,isFetchingNextPage,error,isLoading} = useInfiniteQuery(
     ["feed"],
     async ({pageParam = 1}) => { 
-
+      
         const response =  await fetchPosts(pageParam)
         return {posts: response?.posts,isNextPage: response?.isNextPage}
     
