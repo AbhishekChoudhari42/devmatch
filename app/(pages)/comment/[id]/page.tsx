@@ -8,7 +8,7 @@ import useUserStore from '@/state/store'
 
 import { getUser } from '@/app/actions/user.actions'
 import { fetchPostById } from '@/app/actions/post.actions'
-import { addComment, fetchComments , updateCommentById } from '@/app/actions/comment.actions'
+import { addComment, fetchComments, updateCommentById, deleteCommentById } from '@/app/actions/comment.actions'
 
 import Post from '@/components/ui/Post'
 import Comment from '@/components/ui/Comment'
@@ -90,9 +90,10 @@ const Page = () => {
     queryClient.invalidateQueries({ queryKey: ['comment'] });
   }, [])
 
-  const [editModal,setEditModal] = useState({status:false,commentId:'',content:''})
-  const [deleteModal,setDeleteModal] = useState({status:false,commentId:''})
-
+  const [editModal, setEditModal] = useState({ status: false, commentId: '', content: '' })
+  const [deleteModal, setDeleteModal] = useState({ status: false, commentId: '' })
+  
+  //update comment 
   const updateCommentQuery = useMutation({
     mutationFn: async () => {
       const { user } = await getUser(String(session?.user?.email))
@@ -101,43 +102,82 @@ const Page = () => {
     },
     onSuccess: () => {
       setComment('')
-      setEditModal({status:false,commentId:'',content:''})
+      setEditModal({ status: false, commentId: '', content: '' })
       fetchCommentsQuery.refetch()
     }
   })
-
-
+  //delete comment 
+  const deleteCommentQuery = useMutation({
+    mutationFn: async () => {
+      const { user } = await getUser(String(session?.user?.email))
+     
+      const res = await deleteCommentById(String(deleteModal?.commentId), user?.user_id)
+      return res?.success
+    },
+    onSuccess: () => {
+      setComment('')
+      setDeleteModal({ status: false, commentId: ''})
+      fetchCommentsQuery.refetch()
+    }
+  })
 
   return (
     <div className='w-full flex flex-col'>
 
       {editModal.status && <Modal>
-        
-        <p className="font-semibold text-white" >Edit Post</p>
-        <input className='p-2 w-full rounded-md bg-neutral-800 text-white my-8' placeholder='comment' value={editModal.content} onChange={(e)=>setEditModal({...editModal,content:e.target.value})} type="text" />
+
+        <p className="font-semibold text-white" >Edit Comment</p>
+        <input className='p-2 w-full rounded-md bg-neutral-800 text-white my-8' placeholder='comment' value={editModal.content} onChange={(e) => setEditModal({ ...editModal, content: e.target.value })} type="text" />
         <div className='flex w-full gap-4' >
-          <Button 
-            style={'bg-neutral-800 w-full border-transparent text-sm'} 
-            isLoading={false} 
-            handleClick={() =>{
-              setEditModal({status:false,commentId:'',content:''})
+          <Button
+            style={'bg-neutral-800 w-full border-transparent text-sm'}
+            isLoading={false}
+            handleClick={() => {
+              setEditModal({ status: false, commentId: '', content: '' })
             }}>
             Cancel
           </Button>
 
-          <Button 
-            style={'bg-blue-500 w-full border-transparent text-sm'} 
-            isLoading={updateCommentQuery.isLoading} 
-            handleClick={()=>{
-              updateCommentQuery.mutate()  
+          <Button
+            style={'bg-blue-500 w-full border-transparent text-sm'}
+            isLoading={updateCommentQuery.isLoading}
+            handleClick={() => {
+              updateCommentQuery.mutate()
             }}>
             Save Changes
-            </Button>
+          </Button>
         </div>
 
       </Modal>}
       
-      
+      {/* delete modal */}
+
+      {deleteModal.status && <Modal>
+
+        <p className="font-semibold text-white mb-4" >Delete Comment ?</p>
+        <div className='flex w-full gap-4' >
+          <Button
+            style={'bg-neutral-800 w-full border-transparent text-sm'}
+            isLoading={false}
+            handleClick={() => {
+              setDeleteModal({ status: false, commentId: ''})
+            }}>
+            Cancel
+          </Button>
+
+          <Button
+            style={'bg-red-500 w-full border-transparent text-sm'}
+            isLoading={updateCommentQuery.isLoading}
+            handleClick={() => {
+              deleteCommentQuery.mutate()
+            }}>
+            Delete
+          </Button>
+        </div>
+
+      </Modal>}
+
+
       {(!postQuery.isLoading && postQuery.data && user) ?
         <Post post={postQuery.data} user={user} />
         : <SkeletonLoader qty={1} styles='h-[160px]' />
@@ -149,13 +189,15 @@ const Page = () => {
       </div>
 
       <div className='text-white'>
-        {(!fetchCommentsQuery.isLoading && user) ? (fetchCommentsQuery.data?.pages?.map((page, index) => {
+        {(!fetchCommentsQuery.isLoading && fetchCommentsQuery.data && user) ? (fetchCommentsQuery.data?.pages?.map((page, index) => {
           return <div key={index}>
             {
-              page?.comments?.map(comment => { return <div key={comment?._id}><Comment comment={comment} user={user} setEditModal={setEditModal} editModal={editModal} /></div> })
+              page?.comments?.map(comment => {
+                return <div key={comment?._id}><Comment comment={comment} user={user} setEditModal={setEditModal} editModal={editModal} setDeleteModal={setDeleteModal}/></div>
+              })
             }
           </div>
-        })) : <SkeletonLoader styles="h-[200px]" qty={5} />
+        })) : <SkeletonLoader qty={5} styles="h-[200px]" />
         }
         <div ref={ref}>{(fetchCommentsQuery.isFetchingNextPage && !fetchCommentsQuery.data) && <SkeletonLoader styles="h-[200px]" qty={5} />}</div>
       </div>

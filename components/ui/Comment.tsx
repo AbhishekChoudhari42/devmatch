@@ -25,7 +25,7 @@ interface CommentTypes {
 const Comment = (props: any) => {
 
   const { data: session, status } = useSession()
-  const { comment, user ,setEditModal ,editModal } = props
+  const { comment, user ,setEditModal ,editModal , setDeleteModal} = props
   
   const [likes, setLikes] = useState({ initialState: comment?.likes?.length, currentState: comment?.likes?.length })
   const [likeStatus, setLikeStatus] = useState(comment?.likes?.includes(user?.user_id))
@@ -66,7 +66,7 @@ const Comment = (props: any) => {
       <div className="flex items-center justify-between">
         <div className='flex gap-4'>
 
-        {likeStatus ? <AiFillHeart size={20} onClick={handleCommentLike} className='text-red-500' /> :
+        {likeStatus ? <AiFillHeart size={20} onClick={handleCommentLike} className='text-red-500 cursor-pointer' /> :
           <AiOutlineHeart size={20} onClick={handleCommentLike} className='text-white' />}
         <p className="text-sm text-red-100 hover:text-red-400">{likes?.currentState}</p>
         </div>
@@ -74,7 +74,7 @@ const Comment = (props: any) => {
         {/* {(comment.user_id === user.user_id) && <Button style={'w-10 bg-neutral-950 hover:bg-neutral-800 border-none transit'} isLoading={false} handleClick={()=>{setEditModal(true)}}><BiEditAlt/></Button>} */}
         <div className='flex gap-4'>
           {(comment.user_id === user.user_id) && <div className={'bg-neutral-950 hover:bg-neutral-800 border-none p-1 rounded-md cursor-pointer transit'} onClick={()=>{setEditModal({status:true,commentId:comment?._id,content:comment?.content})}}><BiEditAlt size={20} /></div>}
-          {(comment.user_id === user.user_id) && <div className={'bg-neutral-950 hover:bg-neutral-800 border-none p-1 rounded-md cursor-pointer hover:text-red-500 hover:bg-red-950/50 transit'} onClick={()=>{setEditModal(true)}}><MdDeleteOutline size={20} /></div>}
+          {(comment.user_id === user.user_id) && <div className={'bg-neutral-950 hover:bg-neutral-800 border-none p-1 rounded-md cursor-pointer hover:text-red-500 hover:bg-red-950/50 transit'} onClick={()=>{setDeleteModal({status:true,commentId:comment?._id})}}><MdDeleteOutline size={20} /></div>}
         </div>
       </div>
     </div>
