@@ -7,17 +7,28 @@ import Image from 'next/image'
 
 const Search = () => {
 
+
+  type SearchUser = {
+    user_id : string, 
+    username : string,
+    email : string
+  }
+  type Search={
+    message:string,
+    users : SearchUser[]
+  }
+
   const [search, setSearch] = useState('')
-  const [searchResults, setSearchResults] = useState({ users: [] })
+  const [searchResults, setSearchResults] = useState<Search>({ message:'',users:[]})
 
   const handleSearch = async (search: string) => {
     if (search == '') {
-      setSearchResults({ users: [] })
+      setSearchResults({ message:'',users: [] })
       return
     }
 
     const res = await userSearch(search)
-    setSearchResults(res)
+    setSearchResults(res as Search)
     console.log(res)
   }
 
@@ -43,8 +54,8 @@ const Search = () => {
       {/* results */}
 
       <div className='mt-4 flex flex-col gap-4'>
-        {(searchResults?.users?.length > 0) ? (searchResults?.users?.map((user) => {
-          return <div key={user.user_id} className='w-full border border-neutral-800 rounded-md p-2 flex gap-4'>
+        {(searchResults?.users?.length > 0) ? (searchResults?.users?.map((user:any) => {
+          return <div key={user?.user_id} className='w-full border border-neutral-800 rounded-md p-2 flex gap-4'>
                     <Image width={36} height={36} src={`https://avatars.githubusercontent.com/u/${user?.user_id}?v=4`} alt="profile picture" className='rounded-md h-12 w-12' />
                       <div>
                         <h2 className='font-semibold text-md'>{user?.username}</h2>

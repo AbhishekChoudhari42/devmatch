@@ -34,20 +34,28 @@ export const getUser = async <ReturnUser>(email: string) => {
         return { message: "error" }
     }
 }
-
-export const userSearch = async (username:string) =>{
+type SearchUser = {
+    user_id : string, 
+    username : string,
+    email : string
+}
+type Search={
+    message:string,
+    users : SearchUser[]
+}
+export const userSearch = async <Search>(username:string) =>{
 
     try {
         const foundUsers = await User.find({
             username: { $regex: new RegExp(username, "i") },
-        });
+        },'user_id username email');
 
         if (!foundUsers || foundUsers.length === 0) {
-            return {users:[]}
+            return {message:'',users:[]}
         }
         
-        return {users:foundUsers}
+        return {message:'users returned',users:foundUsers}
     } catch (error) {
-        return {message:error}
+        return {message:error,users:[]}
     }
 }
