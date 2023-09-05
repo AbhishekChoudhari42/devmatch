@@ -42,7 +42,7 @@ export const fetchPosts = async (page:number) =>{
             const totalDocs = await Post.countDocuments()
             const isNextPage = page <= (Math.ceil(totalDocs/limit))
             
-            return {message:'success',posts:posts,isNextPage}
+            return  {message:'success',posts:posts,isNextPage}
     
         }catch(error){
 

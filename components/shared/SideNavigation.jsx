@@ -14,7 +14,7 @@ const SideNavigation = () => {
    
     return (
     
-    <div className='relative max-sm:hidden flex-grow h-full bg-neutral-950 p-4 max-md:max-w-fit max-w-[200px] w-full border-r-2 border-neutral-800'>
+    <div className='relative max-sm:hidden flex-grow h-full bg-neutral-950 p-4 max-md:max-w-fit max-w-[200px] w-full border-r border-neutral-800'>
         {
             navElements.map((link,index)=>{
                     

@@ -10,6 +10,7 @@ import { getUser } from '@/app/actions/user.actions'
 import { fetchPostById } from '@/app/actions/post.actions'
 import { addComment, fetchComments, updateCommentById, deleteCommentById } from '@/app/actions/comment.actions'
 
+import {AnimatePresence} from 'framer-motion'
 import Post from '@/components/ui/Post'
 import Comment from '@/components/ui/Comment'
 import Button from '@/components/ui/Button'
@@ -124,6 +125,8 @@ const Page = () => {
   return (
     <div className='w-full flex flex-col'>
 
+    <AnimatePresence>
+
       {editModal.status && <Modal>
 
         <p className="font-semibold text-white" >Edit Comment</p>
@@ -177,6 +180,7 @@ const Page = () => {
 
       </Modal>}
 
+    </AnimatePresence>
 
       {(!postQuery.isLoading && postQuery.data && user) ?
         <Post post={postQuery.data} user={user} />

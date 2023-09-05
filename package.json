@@ -16,6 +16,7 @@
     "@types/react-dom": "18.2.7",
     "autoprefixer": "10.4.14",
     "axios": "^1.4.0",
+    "framer-motion": "^10.16.3",
     "javascript-time-ago": "^2.5.9",
     "lucide-react": "^0.269.0",
     "mongoose": "^7.4.3",

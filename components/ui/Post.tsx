@@ -84,7 +84,7 @@ const Post = (props: any) => {
           {/* share */}
           <RiSendPlaneFill size={20} className='' />
         </div>
-        <p className='text-xs text-neutral-500' >
+        <p className='text-sm text-neutral-500' >
           <ReactTimeAgo date={post.createdAt} locale={"en-US"} timeStyle="twitter" />
         </p>
 
