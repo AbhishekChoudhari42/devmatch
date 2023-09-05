@@ -87,10 +87,6 @@ const Page = () => {
 
   }, [entry])
 
-  useEffect(() => {
-    queryClient.invalidateQueries({ queryKey: ['comment'] });
-  }, [])
-
   const [editModal, setEditModal] = useState({ status: false, commentId: '', content: '' })
   const [deleteModal, setDeleteModal] = useState({ status: false, commentId: '' })
   
@@ -189,7 +185,7 @@ const Page = () => {
 
       <div className='flex bg-neutral-800 w-full rounded-md items-center p-2 mb-4'>
         <input placeholder='comment' value={comment} onChange={(e) => { setComment(e.target.value) }} className='flex-grow mr-2 rounded-md p-2 bg-neutral-800 text-neutral-200' type="text" />
-        <Button style='w-20 bg-violet-500 border-violet-500' handleClick={handleComment} isLoading={addCommentQuery.isLoading}><AiOutlineSend size={20} className="text-white" /></Button>
+        <Button style='w-20 bg-violet-600 border-violet-600' handleClick={handleComment} isLoading={addCommentQuery.isLoading}><AiOutlineSend size={20} className="text-white" /></Button>
       </div>
 
       <div className='text-white'>

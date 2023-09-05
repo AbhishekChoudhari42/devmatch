@@ -4,6 +4,9 @@ import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai'
 import { BiCommentDetail } from 'react-icons/bi'
 import { RiSendPlaneFill, RiUserFollowLine, RiUserFollowFill } from 'react-icons/ri'
 import ReactTimeAgo from 'react-time-ago'
+import { BiEditAlt } from 'react-icons/bi'
+import { MdDeleteOutline } from 'react-icons/md'
+
 import { likePost } from '../../app/actions/post.actions'
 import Image from 'next/image'
 import { useState } from 'react'
@@ -20,7 +23,7 @@ interface PostTypes {
 }
 
 const Post = (props: any) => {
-  const { post, user } = props
+  const { post, user, profilePage, setEditModal, setDeleteModal } = props
 
   const [likes, setLikes] = useState({ initialState: post.likes.length, currentState: post.likes.length })
   const [likeStatus, setLikeStatus] = useState(post.likes.includes(user?.user_id))
@@ -84,10 +87,13 @@ const Post = (props: any) => {
           {/* share */}
           <RiSendPlaneFill size={20} className='' />
         </div>
-        <p className='text-sm text-neutral-500' >
-          <ReactTimeAgo date={post.createdAt} locale={"en-US"} timeStyle="twitter" />
-        </p>
 
+        {((post.user_id === user.user_id) && profilePage) ?
+          (<div className='flex gap-4'>
+            <div className={'bg-neutral-950 hover:bg-neutral-800 border-none p-1 rounded-md cursor-pointer transit'} onClick={() => { setEditModal({ status: true, postId: post?._id, content: post?.content }) }}><BiEditAlt size={20} /></div>
+            <div className={'bg-neutral-950 hover:bg-neutral-800 border-none p-1 rounded-md cursor-pointer hover:text-red-500 hover:bg-red-950/50 transit'} onClick={() => { setDeleteModal({ status: true, postId: post?._id }) }}><MdDeleteOutline size={20} /></div>
+          </div>) : (<p className='text-sm text-neutral-500' ><ReactTimeAgo date={post.createdAt} locale={"en-US"} timeStyle="twitter" /></p>)
+        }
       </div>
     </div>
   )

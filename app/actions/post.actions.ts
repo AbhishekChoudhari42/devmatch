@@ -101,3 +101,51 @@ export const likePost = async (postId:string,user_id:string) => {
 
 } 
 
+// update
+export const updatePostById = async (post_id: string, content: string, user_id: string) => {
+
+    try {
+        connectDB()
+        const post = await Post.findById(post_id);
+
+        if (post?.user_id === user_id) {
+        
+            const res = await Post.updateOne({ _id: post._id }, { content: content })
+        
+            return { success: true, post: post?.user_id, requser: user_id }
+
+        }
+
+        return { message: 'auth required', success: false }
+
+    } catch (error) {
+    
+        return { message: error, success: false }
+    
+    }
+}
+
+// delete
+export const deletePostById = async (post_id: string, user_id: string) => {
+
+    try {
+        connectDB()
+        const post = await Post.findById(post_id);
+        
+        if (post?.user_id === user_id) {
+            console.log("post====",post)
+            const res = await Post.deleteOne({ _id: post._id });
+     
+            return { success: true, post: post?.user_id, requser: user_id }
+        
+        }
+        
+        return { message: 'auth required', success: false }
+
+    } catch (error) {
+
+        return { message: error, success: false }
+    
+    }
+}
+

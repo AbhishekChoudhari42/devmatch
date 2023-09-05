@@ -8,6 +8,7 @@
   box-sizing: border-box;
   font-family: "poppins";
   
+  
 }
 
 ::-webkit-scrollbar{
@@ -26,7 +27,7 @@
 }
 
 input:focus,input:active,textarea:focus,textarea:active{
-  @apply outline-0 border-violet-500 border
+  @apply outline-0 border-violet-600 border
 }
 input,textarea{
   @apply outline-0 border-transparent border
