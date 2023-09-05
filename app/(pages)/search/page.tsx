@@ -62,7 +62,8 @@ const Search = () => {
                         <p className='text-sm text-neutral-500 '>{user?.email}</p>
                       </div>
                   </div>
-                })) : ((search.length > 0 ) && <p className='bg-neutral-800 border border-neutral-800 text-white p-2 rounded-md' > User does not exist </p>)
+        })) : ((search.length > 0 ) && <p className='bg-neutral-800 border border-neutral-800 text-white p-2 rounded-md' > User does not exist </p>)
+        
         }
         
       </div>
