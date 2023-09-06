@@ -6,10 +6,16 @@ const userSchema = new Schema({
     bio: String,
     user_id: String,
     location: String,
-    likedPost:{
-        type:[String],
-        default:[]
-    }
+    followers:[{
+        type:mongoose.Schema.Types.ObjectId,
+        default:[],
+        ref:"User",
+    }],
+    following:[{
+        type:mongoose.Schema.Types.ObjectId,
+        default:[],
+        ref:"User",
+    }]
 },
 {
     timestamps:true

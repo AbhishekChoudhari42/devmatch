@@ -12,9 +12,11 @@ interface User{
 }
 export async function createOrUpdateUser(user:User) {
     try{
-        await axios.post("/api/user/createuser",{user:user})
+        await axios.post(`/api/user/createuser`,{user:user}).then(res=>{
+            return {success:true}
+        })
     }catch(error){
-        console.log(error)
+        return {success:false,error}
     }
 }
 

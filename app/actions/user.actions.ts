@@ -20,6 +20,32 @@ type ReturnUser = {
         location: String,
     }
 }
+
+
+export const createOrUpdateUser = async (user:User) =>{
+    try{
+
+        console.log(user,'====user')
+        connectDB()
+        let currentUser = await User.findOne({user_id:user.user_id})
+        if(currentUser?._id){
+
+            await User.findByIdAndUpdate({_id:currentUser?._id},user);
+
+        } 
+        else{
+            
+            await User.create(user);
+        }
+        
+        return ({success:true})
+    }
+    catch(error){
+        return ({success:false})
+    }
+}
+
+
 export const getUser = async <ReturnUser>(email: string) => {
 
     try {

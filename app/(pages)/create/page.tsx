@@ -62,7 +62,7 @@ const page = () => {
             />
             {/*  */}
             <p className={`my-4 text-xs ${content?.length > CONTENT_LIMIT ? 'text-red-500':'text-neutral-200' }`}>{content?.length}/{CONTENT_LIMIT} {content?.length > CONTENT_LIMIT && "( Content should be less than 300 characters )"}</p>
-            <Button style='bg-violet-600 border-violet-600 w-full' handleClick={handleSubmit} isLoading={isPending}>Create</Button>
+            <Button style='bg-violet-500 border-violet-500 w-full' handleClick={handleSubmit} isLoading={isPending}>Create</Button>
 
         </form>
     </div>

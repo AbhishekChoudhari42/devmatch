@@ -10,7 +10,7 @@ export async function POST(req : NextRequest) {
     
     try{
         const {user} = await req.json()
-        
+        console.log(user,'====user')
         connectDB()
         let currentUser = await User.findOne({user_id:user.user_id})
         if(currentUser?._id){
