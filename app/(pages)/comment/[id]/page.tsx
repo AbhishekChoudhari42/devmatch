@@ -6,7 +6,7 @@ import { useParams } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import useUserStore from '@/state/store'
 
-import { getUser } from '@/app/actions/user.actions'
+// import { getUser } from '@/app/actions/user.actions'
 import { fetchPostById } from '@/app/actions/post.actions'
 import { addComment, fetchComments, updateCommentById, deleteCommentById } from '@/app/actions/comment.actions'
 
@@ -39,7 +39,7 @@ const Page = () => {
 
   const addCommentQuery = useMutation({
     mutationFn: async () => {
-      const { user } = await getUser(String(session?.user?.email))
+      // const { user } = await getUser(String(session?.user?.email))
       const res = await addComment(String(params?.id), user?.user_id, comment, user?.username)
       return res?.success
     },
@@ -93,7 +93,7 @@ const Page = () => {
   //update comment 
   const updateCommentQuery = useMutation({
     mutationFn: async () => {
-      const { user } = await getUser(String(session?.user?.email))
+      // const { user } = await getUser(String(session?.user?.email))
       const res = await updateCommentById(String(editModal.commentId), editModal.content, user?.user_id)
       return res?.success
     },
@@ -106,7 +106,7 @@ const Page = () => {
   //delete comment 
   const deleteCommentQuery = useMutation({
     mutationFn: async () => {
-      const { user } = await getUser(String(session?.user?.email))
+      // const { user } = await getUser(String(session?.user?.email))
      
       const res = await deleteCommentById(String(deleteModal?.commentId), user?.user_id)
       return res?.success
@@ -185,7 +185,7 @@ const Page = () => {
 
       <div className='flex bg-neutral-800 w-full rounded-md items-center p-2 mb-4'>
         <input placeholder='comment' value={comment} onChange={(e) => { setComment(e.target.value) }} className='flex-grow mr-2 rounded-md p-2 bg-neutral-800 text-neutral-200' type="text" />
-        <Button style='w-20 bg-violet-500 border-violet-500' handleClick={handleComment} isLoading={addCommentQuery.isLoading}><AiOutlineSend size={20} className="text-white" /></Button>
+        <Button style='w-12 bg-violet-500 border-violet-500' handleClick={handleComment} isLoading={addCommentQuery.isLoading}><AiOutlineSend size={20} className="text-white" /></Button>
       </div>
 
       <div className='text-white'>

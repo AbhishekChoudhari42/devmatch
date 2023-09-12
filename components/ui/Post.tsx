@@ -12,7 +12,11 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { useSession } from "next-auth/react"
 import Link from 'next/link'
-import { getUser } from '@/app/actions/user.actions'
+import { followUser, getUser } from '@/app/actions/user.actions'
+import useUserStore from '@/state/store'
+
+import { useMutation } from '@tanstack/react-query'
+import Button from './Button'
 interface PostTypes {
   _id: string,
   user_id: string,
@@ -24,10 +28,16 @@ interface PostTypes {
 
 const Post = (props: any) => {
   const { post, user, profilePage, setEditModal, setDeleteModal } = props
-
+  
+  const {setUser} = useUserStore()  
+  
   const [likes, setLikes] = useState({ initialState: post.likes.length, currentState: post.likes.length })
   const [likeStatus, setLikeStatus] = useState(post.likes.includes(user?.user_id))
-
+  
+  const followingArray = user.following.map((element:string[])=>{return element[0]})
+  
+  const [followed, setFollowed] = useState<boolean>(followingArray.includes(post.user_id))
+  
   const handlePostLike = async () => {
     try {
       setLikes({ ...likes, currentState: likeStatus ? likes.currentState - 1 : likes.currentState + 1 })
@@ -43,6 +53,35 @@ const Post = (props: any) => {
     }
   }
 
+  const followUserQuery = useMutation({
+    mutationFn: async () =>{
+      try{
+
+        console.log("payload === ",user?.user_id,post?.user_id)
+        const res = await followUser(user?.user_id,post?.user_id)
+        
+        console.log(res,"===res")
+        
+        if(res.success){
+          
+          setFollowed(!followed)
+          
+        }
+        
+        return res.success 
+        
+      }catch(error){
+        
+        setFollowed(followed)
+        return false
+      }
+    },
+    onSuccess:async () => {
+      const {user:newUser} = await getUser(String(user?.email))
+      setUser(newUser)
+      console.log('success')
+    }})
+
   return (
     <div className="w-full bg-neutral-950 text-white p-4 rounded-md mb-4 border-neutral-800 border">
 
@@ -52,6 +91,15 @@ const Post = (props: any) => {
           <Image height={28} width={28} className='rounded-md' src={`https://avatars.githubusercontent.com/u/${post.user_id}?v=4`} alt="profile image" />
           <h2 className="ml-4 text-lg font-bold text-white">{post.username}</h2>
         </div>
+        <div onClick={()=>{followUserQuery.mutate()}} className=''>
+        {
+          followed ?
+          <RiUserFollowFill className='text-green-500' size={20} />:
+          <RiUserFollowLine size={20} />
+        }
+        </div>
+        {/* <div className=''><RiUserFollowLine size={20} /></div> */}
+
 
       </div>
 

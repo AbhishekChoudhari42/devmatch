@@ -30,7 +30,7 @@ export const createOrUpdateUser = async (user:User) =>{
         let currentUser = await User.findOne({user_id:user.user_id})
         if(currentUser?._id){
 
-            await User.findByIdAndUpdate({_id:currentUser?._id},user);
+            await User.findByIdAndUpdate({ _id:currentUser?._id},user);
 
         } 
         else{
@@ -81,7 +81,54 @@ export const userSearch = async <Search>(username:string) =>{
         }
         
         return {message:'users returned',users:foundUsers}
+ 
     } catch (error) {
+ 
         return {message:error,users:[]}
+ 
     }
 }
+
+
+export const followUser = async (user_id:string,followUser_id:string) => {
+
+    try{
+
+        connectDB()
+
+        const user = await User.findOne({user_id:user_id})
+        
+        const followUser = await User.findOne({user_id:followUser_id})
+        
+        console.log(followUser,"xder")
+       
+        const status = !followUser.followers.includes(user_id) && !user.following.includes(followUser_id)
+        
+        if(status){
+        
+            await user.updateOne({$push:{following:followUser_id}})
+            await followUser.updateOne({$push:{followers:user_id}})
+            
+            return {success:true,user:user.following,followUser:followUser.followers}
+        
+        }
+
+        if(!status){
+            
+                await user.updateOne({$pull:{following:followUser_id}})
+                await followUser.updateOne({$pull:{followers:user_id}})
+            
+                return {success:true,user:user.following,followUser:followUser.followers}
+
+            
+        }
+            
+        return {success:false}
+
+    }catch(error){
+        
+        return {success:false,error}
+    
+    }
+
+} 

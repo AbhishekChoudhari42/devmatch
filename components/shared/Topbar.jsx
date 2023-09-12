@@ -6,9 +6,12 @@ import { usePathname } from 'next/navigation'
 import useUserStore from '@/state/store'
 import { getUser } from '@/app/actions/user.actions'
 import { useEffect } from 'react'
+import { useQuery } from '@tanstack/react-query'
 const Topbar = () => {
 
   const { data: session, status } = useSession()
+
+
   const path = usePathname()
   const { user, setUser } = useUserStore()
   useEffect(() => {

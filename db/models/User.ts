@@ -7,14 +7,13 @@ const userSchema = new Schema({
     user_id: String,
     location: String,
     followers:[{
-        type:mongoose.Schema.Types.ObjectId,
+        type:[String],
         default:[],
-        ref:"User",
+       
     }],
     following:[{
-        type:mongoose.Schema.Types.ObjectId,
+        type:[String],
         default:[],
-        ref:"User",
     }]
 },
 {

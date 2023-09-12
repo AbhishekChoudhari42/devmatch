@@ -4,19 +4,13 @@ import { fetchPosts } from './actions/post.actions'
 import Post from "@/components/ui/Post"
 import { useIntersection } from "@mantine/hooks"
 import { useEffect,useRef,useState } from "react"
-import { useSession } from "next-auth/react"
-import { getUser } from "@/app/actions/user.actions"
 import useUserStore from '../state/store'
 import SkeletonLoader from "@/components/ui/SkeletonLoader"
 
-
-
-
 export default function Page() {
-  
-  
+    
   const {user} = useUserStore()    
-  const {data,fetchNextPage,hasNextPage,isFetchingNextPage,error,isLoading} = useInfiniteQuery(
+  const {data,fetchNextPage,isFetchingNextPage,error,isLoading} = useInfiniteQuery(
     ["feed"],
     async ({pageParam = 1}) => { 
       
@@ -67,7 +61,6 @@ export default function Page() {
         })):<SkeletonLoader styles="h-[200px]" qty={5} />
       }
       <div ref={ref}>{(isFetchingNextPage) && <SkeletonLoader styles="h-[200px]" qty={5}/>}</div>
-      {hasNextPage && (<div className='h-[300px] w-full bg-neutral-950 mb-4 rounded-md p-4'>Loading...</div>)}
     </main>
   )
 }
