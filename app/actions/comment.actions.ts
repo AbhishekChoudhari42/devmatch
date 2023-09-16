@@ -3,6 +3,7 @@
 import Comment from "@/db/models/Comment"
 import Post from "@/db/models/Post"
 import connectDB from "@/db/mongodb"
+
 import { revalidatePath } from "next/cache"
 
 export const addComment = async (postId: string, user_id: string, content: string, username: string) => {

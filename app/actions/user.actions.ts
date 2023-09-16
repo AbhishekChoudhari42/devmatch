@@ -60,6 +60,23 @@ export const getUser = async <ReturnUser>(email: string) => {
         return { message: "error" }
     }
 }
+
+export const getUserById = async <ReturnUser>(user_id: string) => {
+
+    try {
+
+
+        connectDB()
+        let currentUser = await User.findOne({ user_id: user_id })
+        return { message: "success", user: currentUser }
+
+    }
+    catch (error) {
+        return { message: "error" }
+    }
+}
+
+
 type SearchUser = {
     user_id : string, 
     username : string,

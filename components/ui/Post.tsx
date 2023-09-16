@@ -57,16 +57,12 @@ const Post = (props: any) => {
     mutationFn: async () =>{
       try{
 
+        setFollowed(!followed)
+
         console.log("payload === ",user?.user_id,post?.user_id)
         const res = await followUser(user?.user_id,post?.user_id)
         
         console.log(res,"===res")
-        
-        if(res.success){
-          
-          setFollowed(!followed)
-          
-        }
         
         return res.success 
         
@@ -91,13 +87,14 @@ const Post = (props: any) => {
           <Image height={28} width={28} className='rounded-md' src={`https://avatars.githubusercontent.com/u/${post.user_id}?v=4`} alt="profile image" />
           <h2 className="ml-4 text-lg font-bold text-white">{post.username}</h2>
         </div>
-        <div onClick={()=>{followUserQuery.mutate()}} className=''>
+        {!(user.user_id == post.user_id) && (<div onClick={()=>{followUserQuery.mutate()}} className=''>
         {
           followed ?
           <RiUserFollowFill className='text-green-500' size={20} />:
           <RiUserFollowLine size={20} />
         }
-        </div>
+        </div>)
+        }
         {/* <div className=''><RiUserFollowLine size={20} /></div> */}
 
 
