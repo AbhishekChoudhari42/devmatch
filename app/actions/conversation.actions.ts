@@ -35,7 +35,7 @@ export const sendMessage = async (conversationId:string,sender:string,content:st
     }
 
     const message = {conversationId,sender,content}
-    pusherServer.trigger(conversationId, 'incoming-message', content)
+    pusherServer.trigger(conversationId, 'incoming-message', message)
     const newMessage = await Message.create({conversationId,sender,content})
 
     return {success:true}
