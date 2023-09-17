@@ -1,5 +1,7 @@
 "user server"
-import { pusherServer } from "@/lib/pusher"
+import { pusherServer } from "@/pusher/pusher"
+
+
 
 export const pusherAuth = async (socket_id: string, channel_name: string, user_id: string) => {
 

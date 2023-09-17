@@ -3,7 +3,7 @@ import { getMessagesById, getOrCreateConversation, sendMessage } from '@/app/act
 import { getUserById } from '@/app/actions/user.actions'
 import Button from '@/components/ui/Button'
 import Message from '@/components/ui/Message'
-import { pusherClient } from '@/lib/pusher'
+import { pusherClient } from "@/pusher/pusher"
 import useUserStore from '@/state/store'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'

@@ -2,7 +2,7 @@
 import Conversation from "@/db/models/Conversation";
 import Message from "@/db/models/Message";
 import connectDB from "@/db/mongodb"
-import { pusherServer } from "@/lib/pusher"
+import { pusherServer } from "@/pusher/pusher"
 
 type Conversation = {
     _id:string,
@@ -35,7 +35,7 @@ export const sendMessage = async (conversationId:string,sender:string,content:st
     }
 
     const message = {conversationId,sender,content}
-    pusherServer.trigger(conversationId, 'incoming-message', message)
+    pusherServer.trigger(conversationId, 'incoming-message', content)
     const newMessage = await Message.create({conversationId,sender,content})
 
     return {success:true}
