@@ -16,18 +16,20 @@ const page = () => {
 
     const { user } = useUserStore()
     const params = useParams()
-    const [message, setMessage] = useState<any>([])
+    const [messageContent, setMessageContent] = useState<any>([])
     const [messageList, setMessageList] = useState<any>([])
     const [conversationId, setConversationId] = useState<string>('')
     const messageListRef = useRef<ElementRef<"div">>(null)
     const sendMessageQuery = useMutation(
         {
             mutationFn: async () => {
-                const res = await sendMessage(conversationId, user.user_id, message)
+                console.log("currentMessage==",messageContent)
+                const res = await sendMessage(conversationId, user.user_id, messageContent)
+                setMessageContent('')
                 return res.success
             },
             onSuccess:()=>{
-                setMessage('')
+                
             }
         }
     )
@@ -106,7 +108,7 @@ const page = () => {
                 </div>
 
                 <div className='bg-neutral-800 w-full rounded-md items-center p-2 flex bottom-0'>
-                    <input placeholder='message' value={message} onChange={(e) => { setMessage(()=>{return e.target.value}) }} className='flex-grow mr-2 rounded-md p-2 bg-neutral-800 text-neutral-200' type="text" />
+                    <input placeholder='message' value={messageContent} onChange={(e) => { setMessageContent(()=>{return e.target.value}) }} className='flex-grow mr-2 rounded-md p-2 bg-neutral-800 text-neutral-200' type="text" />
                     <Button style='w-12 bg-violet-500 border-violet-500' handleClick={handleMessage} isLoading={sendMessageQuery.isLoading}><AiOutlineSend size={20} className="text-white" /></Button>
                 </div>
             </div>
