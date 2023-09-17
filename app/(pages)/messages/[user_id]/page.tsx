@@ -24,6 +24,10 @@ const page = () => {
         {
             mutationFn: async () => {
                 const res = await sendMessage(conversationId, user.user_id, message)
+                return res.success
+            },
+            onSuccess:()=>{
+                setMessage('')
             }
         }
     )
