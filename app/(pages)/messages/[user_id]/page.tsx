@@ -102,7 +102,7 @@ const page = () => {
                 </div>
 
                 <div className='bg-neutral-800 w-full rounded-md items-center p-2 flex bottom-0'>
-                    <input placeholder='message' value={message} onChange={(e) => { setMessage(e.target.value) }} className='flex-grow mr-2 rounded-md p-2 bg-neutral-800 text-neutral-200' type="text" />
+                    <input placeholder='message' value={message} onChange={(e) => { setMessage(()=>{return e.target.value}) }} className='flex-grow mr-2 rounded-md p-2 bg-neutral-800 text-neutral-200' type="text" />
                     <Button style='w-12 bg-violet-500 border-violet-500' handleClick={handleMessage} isLoading={sendMessageQuery.isLoading}><AiOutlineSend size={20} className="text-white" /></Button>
                 </div>
             </div>
