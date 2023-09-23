@@ -25,6 +25,7 @@ const page = () => {
             mutationFn: async () => {
                 console.log("currentMessage==",messageContent)
                 const res = await sendMessage(conversationId, user.user_id, messageContent)
+                setMessageList((prev:any) => [...prev, {conversationId, sender: user.user_id, content: messageContent}])
                 setMessageContent('')
                 return res.success
             },
@@ -73,7 +74,9 @@ const page = () => {
             
             pusherClient.bind('incoming-message', (message: { conversationId: string, sender: string, content: string }) => {
                 console.log("pusherrr")
-                setMessageList((prev: any) => [...prev, message])
+                if(message.sender !=  user.user_id){
+                    setMessageList((prev:any) => [...prev, message])
+                }
             })
             
         }     
@@ -101,7 +104,7 @@ const page = () => {
             <div className='w-full text-white relative flex flex-col flex-grow '>
 
                 <div className='w-full border border-neutral-800 rounded-md h-12 flex-grow mb-4 p-4 overflow-y-scroll'>
-                    {messageList?.length > 0 && messageList.map((message: any) => {
+                    {messageList && messageList?.length > 0 && messageList.map((message: any) => {
                         return <Message key={message?._id} content={message?.content} sender={message?.sender} />
                     })}
                     <div ref={messageListRef}></div>
