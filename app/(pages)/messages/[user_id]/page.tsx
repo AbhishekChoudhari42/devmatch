@@ -8,6 +8,7 @@ import useUserStore from '@/state/store'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { useRef } from 'react'
+import { v4 as uuid } from 'uuid';
 
 import React, { useEffect, useState,ElementRef } from 'react'
 import { AiOutlineSend } from 'react-icons/ai'
@@ -70,9 +71,9 @@ const page = () => {
         if(conversationId){
 
             
-            pusherClient.subscribe(conversationId)
+            const channel = pusherClient.subscribe(conversationId)
             
-            pusherClient.bind('incoming-message', (message: { conversationId: string, sender: string, content: string }) => {
+            channel.bind('incoming-message', (message: { conversationId: string, sender: string, content: string }) => {
                 console.log("pusherrr")
                 if(message.sender !=  user.user_id){
                     setMessageList((prev:any) => [...prev, message])
@@ -105,7 +106,7 @@ const page = () => {
 
                 <div className='w-full border border-neutral-800 rounded-md h-12 flex-grow mb-4 p-4 overflow-y-scroll'>
                     {messageList && messageList?.length > 0 && messageList.map((message: any) => {
-                        return <Message key={message?._id} content={message?.content} sender={message?.sender} />
+                        return <Message key={uuid()} content={message?.content} sender={message?.sender} />
                     })}
                     <div ref={messageListRef}></div>
                 </div>
